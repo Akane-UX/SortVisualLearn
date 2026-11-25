@@ -1,0 +1,355 @@
+import { AlgorithmId, AlgorithmMeta, QuizQuestion } from '../types/sorting';
+
+export const ALGORITHMS: Record<AlgorithmId, AlgorithmMeta> = {
+  bubble: {
+    id: 'bubble',
+    name: 'Bubble Sort',
+    shortName: 'Bubble',
+    tagline: 'Angka besar mengapung pelan-pelan ke ujung kanan seperti gelembung udara.',
+    difficulty: 'Pemula',
+    accentColor: '#FF5A36',
+    analogyTitle: 'Gelembung Soda di Gelas',
+    analogyDesc:
+      'Bayangkan gelembung udara di dalam gelas air. Gelembung yang lebih besar akan terus naik ke permukaan. Di Bubble Sort, kita membandingkan dua angka bersebelahan: jika yang kiri lebih besar, kita tukar posisinya!',
+    howItWorks: [
+      'Mulai dari ujung kiri array, bandingkan elemen ke-j dengan elemen ke-(j+1).',
+      'Jika elemen kiri lebih besar dari kanan, tukar posisi keduanya.',
+      'Ulangi sampai ujung kanan — angka terbesar otomatis berada di posisi paling akhir!',
+      'Ulangi putaran berikutnya untuk sisa elemen yang belum terurut, hingga tidak ada lagi pertukaran.',
+    ],
+    whenToUse:
+      'Cocok untuk belajar dasar algoritma, atau saat data sangat kecil (< 20 item) dan hampir terurut.',
+    pros: [
+      'Sangat mudah dipahami dan diimplementasikan.',
+      'Bisa berhenti lebih cepat jika dalam 1 putaran tidak ada pertukaran (sudah urut).',
+      'Stabil — urutan elemen bernilai sama tidak berubah.',
+    ],
+    cons: [
+      'Lambat untuk data besar karena kompleksitas O(n²).',
+      'Terlalu banyak operasi tukar (swap) dibanding Selection Sort.',
+    ],
+    complexity: {
+      best: 'O(n)',
+      average: 'O(n²)',
+      worst: 'O(n²)',
+      space: 'O(1)',
+    },
+    stable: true,
+    pseudocode: [
+      'for i = 0 to n - 2:',
+      '  swapped = false',
+      '  for j = 0 to n - i - 2:',
+      '    if arr[j] > arr[j + 1]:',
+      '      swap(arr[j], arr[j + 1])',
+      '      swapped = true',
+      '  if not swapped: break',
+    ],
+  },
+  selection: {
+    id: 'selection',
+    name: 'Selection Sort',
+    shortName: 'Selection',
+    tagline: 'Cari nilai paling kecil di sisa barisan, lalu taruh langsung di depan.',
+    difficulty: 'Pemula',
+    accentColor: '#2563EB',
+    analogyTitle: 'Memilih Juara Terpendek di Barisan',
+    analogyDesc:
+      'Bayangkan guru olahraga mencari siswa paling pendek dari seluruh barisan untuk ditaruh paling depan. Setelah ketemu, siswa itu ditukar ke posisi pertama. Lalu guru mencari yang paling pendek kedua dari sisa barisan!',
+    howItWorks: [
+      'Anggap posisi i sebagai posisi terkecil sementara (min).',
+      'Pindai seluruh elemen di sebelah kanan i untuk mencari angka yang lebih kecil.',
+      'Jika ketemu yang lebih kecil, catat indeksnya sebagai min baru.',
+      'Setelah selesai memindai, tukar elemen di posisi i dengan elemen di posisi min.',
+    ],
+    whenToUse:
+      'Berguna ketika biaya menulis/menukar memori mahal (misalnya EEPROM/Flash), karena Selection Sort maksimal hanya melakukan n-1 kali swap!',
+    pros: [
+      'Jumlah pertukaran (swap) sangat minimal: maksimal O(n).',
+      'Tidak butuh memori tambahan (in-place, O(1)).',
+      'Logika sangat sederhana dan mudah dilacak.',
+    ],
+    cons: [
+      'Tetap memakan waktu O(n²) bahkan jika array sudah terurut sempurna.',
+      'Tidak stabil secara default karena pertukaran jarak jauh.',
+    ],
+    complexity: {
+      best: 'O(n²)',
+      average: 'O(n²)',
+      worst: 'O(n²)',
+      space: 'O(1)',
+    },
+    stable: false,
+    pseudocode: [
+      'for i = 0 to n - 2:',
+      '  minIdx = i',
+      '  for j = i + 1 to n - 1:',
+      '    if arr[j] < arr[minIdx]:',
+      '      minIdx = j',
+      '  if minIdx != i:',
+      '    swap(arr[i], arr[minIdx])',
+    ],
+  },
+  insertion: {
+    id: 'insertion',
+    name: 'Insertion Sort',
+    shortName: 'Insertion',
+    tagline: 'Ambil satu angka, lalu sisipkan ke posisi yang tepat di bagian kiri yang sudah rapi.',
+    difficulty: 'Pemula',
+    accentColor: '#10B981',
+    analogyTitle: 'Menyusun Kartu Remi di Tangan',
+    analogyDesc:
+      'Saat bermain kartu, kita mengambil kartu baru satu per satu lalu menggeser kartu yang lebih besar di tangan ke kanan supaya kartu baru bisa masuk ke celah yang pas. Itulah cara kerja Insertion Sort!',
+    howItWorks: [
+      'Anggap elemen pertama (indeks 0) sudah terurut.',
+      'Ambil elemen berikutnya sebagai key (kartu baru).',
+      'Bandingkan key dengan elemen-elemen di sebelah kirinya; geser yang lebih besar ke kanan.',
+      'Sisipkan key ke celah kosong yang tepat.',
+    ],
+    whenToUse:
+      'Juaranya untuk data yang hampir terurut atau data yang masuk sedikit demi sedikit secara live (online sorting).',
+    pros: [
+      'Sangat cepat untuk data yang hampir terurut: O(n)!',
+      'Stabil dan in-place (hemat memori O(1)).',
+      'Sering dipakai sebagai sub-algoritma di dalam Timsort & Introsort.',
+    ],
+    cons: [
+      'Lambat (O(n²)) jika data berukuran besar dan terbalik total.',
+    ],
+    complexity: {
+      best: 'O(n)',
+      average: 'O(n²)',
+      worst: 'O(n²)',
+      space: 'O(1)',
+    },
+    stable: true,
+    pseudocode: [
+      'for i = 1 to n - 1:',
+      '  key = arr[i]',
+      '  j = i - 1',
+      '  while j >= 0 and arr[j] > key:',
+      '    arr[j + 1] = arr[j]',
+      '    j = j - 1',
+      '  arr[j + 1] = key',
+    ],
+  },
+  merge: {
+    id: 'merge',
+    name: 'Merge Sort',
+    shortName: 'Merge',
+    tagline: 'Pecah barisan menjadi potongan kecil, lalu gabungkan kembali secara terurut.',
+    difficulty: 'Menengah',
+    accentColor: '#8B5CF6',
+    analogyTitle: 'Membagi Tumpukan Kertas Ujian',
+    analogyDesc:
+      'Daripada mengurutkan 100 lembar ujian sendirian, bagi tumpukan jadi dua, minta dua teman mengurutkan masing-masing, lalu gabungkan kedua tumpukan yang sudah rapi dengan membandingkan lembar paling atas!',
+    howItWorks: [
+      'Divide: Belah array menjadi dua bagian (kiri dan kanan) hingga tersisa 1 elemen per bagian.',
+      'Conquer: 1 elemen otomatis sudah terurut.',
+      'Combine (Merge): Gabungkan dua bagian terurut dengan mengambil angka terkecil dari depan masing-masing bagian.',
+    ],
+    whenToUse:
+      'Pilihan utama saat butuh jaminan kecepatan O(n log n) di segala kondisi (tanpa worst-case lambat) dan butuh hasil yang stabil.',
+    pros: [
+      'Kecepatan konsisten O(n log n) bahkan pada kasus terburuk!',
+      'Stabil — menjaga urutan asli elemen yang nilainya sama.',
+      'Sangat cocok untuk Linked List dan data eksternal besar.',
+    ],
+    cons: [
+      'Membutuhkan memori tambahan O(n) untuk menampung hasil gabungan.',
+    ],
+    complexity: {
+      best: 'O(n log n)',
+      average: 'O(n log n)',
+      worst: 'O(n log n)',
+      space: 'O(n)',
+    },
+    stable: true,
+    pseudocode: [
+      'function mergeSort(arr, left, right):',
+      '  if left >= right: return',
+      '  mid = floor((left + right) / 2)',
+      '  mergeSort(arr, left, mid)',
+      '  mergeSort(arr, mid + 1, right)',
+      '  merge(arr, left, mid, right)',
+      '  // gabungkan kiri & kanan terurut',
+    ],
+  },
+  quick: {
+    id: 'quick',
+    name: 'Quick Sort',
+    shortName: 'Quick',
+    tagline: 'Pilih satu patokan (pivot), lempar yang kecil ke kiri dan yang besar ke kanan.',
+    difficulty: 'Menengah',
+    accentColor: '#F59E0B',
+    analogyTitle: 'Patokan Tinggi Badan di Lapangan',
+    analogyDesc:
+      'Pilih satu orang sebagai patokan (pivot). Semua yang lebih pendek berdiri di sebelah kirinya, semua yang lebih tinggi di kanannya. Sekarang pivot sudah di posisi finalnya! Ulangi cara yang sama untuk kelompok kiri dan kanan.',
+    howItWorks: [
+      'Pilih satu elemen sebagai pivot (di sini kita pakai elemen paling kanan).',
+      'Partisi: pindahkan semua elemen <= pivot ke sisi kiri, dan yang > pivot ke kanan.',
+      'Tempatkan pivot tepat di antara kedua sisi — posisi pivot ini sudah final!',
+      'Rekursif lakukan hal yang sama untuk sub-array kiri dan kanan.',
+    ],
+    whenToUse:
+      'Standar industri untuk pengurutan di RAM karena sangat cepat secara praktik dan ramah terhadap CPU cache.',
+    pros: [
+      'Rata-rata tercepat di dunia nyata: O(n log n) dengan konstanta kecil.',
+      'In-place, tidak perlu array cadangan sebesar O(n).',
+    ],
+    cons: [
+      'Worst-case bisa turun menjadi O(n²) jika pivot selalu dipilih buruk (misal array sudah terurut dengan pivot ujung).',
+      'Tidak stabil.',
+    ],
+    complexity: {
+      best: 'O(n log n)',
+      average: 'O(n log n)',
+      worst: 'O(n²)',
+      space: 'O(log n)',
+    },
+    stable: false,
+    pseudocode: [
+      'function quickSort(arr, low, high):',
+      '  if low < high:',
+      '    pivotIdx = partition(arr, low, high)',
+      '    quickSort(arr, low, pivotIdx - 1)',
+      '    quickSort(arr, pivotIdx + 1, high)',
+      'function partition(arr, low, high):',
+      '  // taruh <= pivot di kiri, > di kanan',
+    ],
+  },
+  heap: {
+    id: 'heap',
+    name: 'Heap Sort',
+    shortName: 'Heap',
+    tagline: 'Bangun struktur pohon Max-Heap, lalu panen juara terbesarnya satu per satu.',
+    difficulty: 'Menengah',
+    accentColor: '#EC4899',
+    analogyTitle: 'Turnamen Pohon Gugur',
+    analogyDesc:
+      'Bayangkan turnamen di mana pemenang selalu naik ke puncak podium (indeks 0). Kita ambil sang juara untuk ditaruh di ujung kanan, lalu peserta berikutnya bertanding lagi menuju puncak pohon!',
+    howItWorks: [
+      'Build Max-Heap: Susun array menjadi struktur pohon biner di mana induk selalu >= anak.',
+      'Elemen terbesar pasti berada di puncak (indeks 0).',
+      'Tukar indeks 0 dengan elemen terakhir yang belum urut, lalu kunci posisi akhir tersebut.',
+      'Perbaiki kembali sifat Max-Heap (heapify) pada sisa pohon, ulangi hingga habis.',
+    ],
+    whenToUse:
+      'Dipakai saat kita butuh jaminan O(n log n) tanpa risiko worst-case Quick Sort DAN memori sangat terbatas (O(1) space).',
+    pros: [
+      'Dijamin O(n log n) di semua kasus (Best, Average, Worst).',
+      'Hemat memori: O(1) tambahan ruang.',
+    ],
+    cons: [
+      'Dalam praktik sedikit lebih lambat dari Quick Sort karena lompatan indeks kurang ramah cache.',
+      'Tidak stabil.',
+    ],
+    complexity: {
+      best: 'O(n log n)',
+      average: 'O(n log n)',
+      worst: 'O(n log n)',
+      space: 'O(1)',
+    },
+    stable: false,
+    pseudocode: [
+      'buildMaxHeap(arr)',
+      'for i = n - 1 down to 1:',
+      '  swap(arr[0], arr[i])',
+      '  heapSize = i',
+      '  heapify(arr, 0, heapSize)',
+      '  // pastikan parent >= children',
+      '  // ulangi hingga semua terurut',
+    ],
+  },
+};
+
+export const ALGORITHM_ORDER: AlgorithmId[] = [
+  'bubble',
+  'selection',
+  'insertion',
+  'merge',
+  'quick',
+  'heap',
+];
+
+export const QUIZ_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 'q1',
+    algorithmId: 'bubble',
+    question:
+      'Pada Bubble Sort, jika dalam satu putaran penuh tidak ada satu pun pertukaran (swap) yang terjadi, apa artinya?',
+    options: [
+      'Array sudah terurut sempurna, algoritma bisa langsung berhenti!',
+      'Semua angka di dalam array bernilai sama.',
+      'Harus mengulang dari indeks terakhir.',
+      'Terjadi error pada pointer j.',
+    ],
+    correctIndex: 0,
+    explanation:
+      'Betul! Tidak adanya pertukaran berarti setiap pasangan bersebelahan sudah memenuhi arr[j] <= arr[j+1], sehingga array pasti sudah terurut.',
+  },
+  {
+    id: 'q2',
+    algorithmId: 'selection',
+    question:
+      'Algoritma mana yang melakukan jumlah pertukaran (swap) paling sedikit secara konsisten (maksimal n - 1 kali)?',
+    options: ['Bubble Sort', 'Selection Sort', 'Quick Sort', 'Insertion Sort'],
+    correctIndex: 1,
+    explanation:
+      'Selection Sort hanya melakukan 1 kali swap per putaran (setelah menemukan nilai minimum), sehingga total swap maksimal hanya n - 1 kali.',
+  },
+  {
+    id: 'q3',
+    algorithmId: 'insertion',
+    question:
+      'Jika kamu punya 1.000 data yang SUDAH hampir terurut (hanya 2-3 angka yang sedikit meleset), algoritma mana yang paling efisien?',
+    options: ['Selection Sort', 'Insertion Sort', 'Merge Sort', 'Heap Sort'],
+    correctIndex: 1,
+    explanation:
+      'Insertion Sort memiliki Best Case O(n) pada data yang hampir terurut karena loop while hampir tidak perlu menggeser elemen!',
+  },
+  {
+    id: 'q4',
+    algorithmId: 'merge',
+    question:
+      'Mengapa Merge Sort sering dipilih saat stabilitas dan jaminan waktu O(n log n) lebih penting daripada penghematan RAM?',
+    options: [
+      'Karena Merge Sort tidak memakai rekursi.',
+      'Karena Merge Sort selalu O(n log n) di semua kasus dan bersifat stabil, meski butuh memori ekstra O(n).',
+      'Karena Merge Sort tidak pernah membandingkan dua angka.',
+      'Karena Merge Sort hanya bekerja pada angka genap.',
+    ],
+    correctIndex: 1,
+    explanation:
+      'Merge Sort menjamin kompleksitas waktu O(n log n) bahkan di worst-case dan menjaga urutan elemen kembar (stabil), dengan trade-off memori tambahan O(n).',
+  },
+  {
+    id: 'q5',
+    algorithmId: 'quick',
+    question:
+      'Apa fungsi utama dari elemen "Pivot" dalam algoritma Quick Sort?',
+    options: [
+      'Sebagai nilai rata-rata seluruh array.',
+      'Sebagai patokan untuk membagi elemen lebih kecil ke kiri dan lebih besar ke kanan.',
+      'Untuk menghapus angka duplikat.',
+      'Untuk menukar elemen pertama dan terakhir saja.',
+    ],
+    correctIndex: 1,
+    explanation:
+      'Pivot menjadi pembatas partisi: setelah partisi selesai, pivot langsung berada di posisi finalnya yang tepat!',
+  },
+  {
+    id: 'q6',
+    algorithmId: 'heap',
+    question:
+      'Pada struktur Max-Heap yang digunakan Heap Sort, di indeks manakah elemen terbesar selalu berada sebelum ditukar?',
+    options: [
+      'Indeks paling akhir (n - 1)',
+      'Indeks tengah (n / 2)',
+      'Indeks paling awal / puncak (0)',
+      'Indeks acak',
+    ],
+    correctIndex: 2,
+    explanation:
+      'Dalam Max-Heap, setiap parent selalu lebih besar atau sama dengan anak-anaknya, sehingga nilai maksimum selalu berada di root (indeks 0).',
+  },
+];
