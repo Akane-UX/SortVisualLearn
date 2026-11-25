@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { CheckCircle2, ArrowLeftRight, Eye, Sparkles } from 'lucide-react';
 import { SortStep } from '../types/sorting';
@@ -16,14 +16,63 @@ export const SortingStage: React.FC<SortingStageProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const prevDoneRef = useRef(false);
+  const prevLeftMapRef = useRef<Map<string, number>>(new Map());
 
   const maxVal = Math.max(...step.array.map((el) => el.value), 100);
 
-  // GSAP subtle spring lift for active bars & celebratory cascade when done
-  useEffect(() => {
+  // GSAP FLIP animation: bars physically glide/swap horizontally to their new positions
+  useLayoutEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const ctx = gsap.context(() => {
       const bars = gsap.utils.toArray<HTMLElement>('.sort-bar');
       if (!bars.length) return;
+
+      const nextLeftMap = new Map<string, number>();
+
+      bars.forEach((bar, idx) => {
+        const elId = bar.dataset.elId;
+        if (!elId) return;
+
+        // Clear active x transform briefly to measure true layout position
+        gsap.set(bar, { x: 0 });
+        const rect = bar.getBoundingClientRect();
+        nextLeftMap.set(elId, rect.left);
+
+        const prevLeft = prevLeftMapRef.current.get(elId);
+        const dx = prevLeft !== undefined ? prevLeft - rect.left : 0;
+
+        const isSwapping = step.swapping.includes(idx);
+        const isComparing = step.comparing.includes(idx);
+        const isPivot = step.pivot === idx;
+
+        if (Math.abs(dx) > 1) {
+          // Physical swap/move: start from previous X and glide smoothly to new X
+          gsap.fromTo(
+            bar,
+            { x: dx, y: isSwapping ? -10 : -4 },
+            {
+              x: 0,
+              y: isSwapping ? -6 : 0,
+              duration: 0.28,
+              ease: 'power3.out',
+              overwrite: 'auto',
+            }
+          );
+        } else {
+          gsap.to(bar, {
+            x: 0,
+            y: isSwapping ? -8 : isComparing || isPivot ? -4 : 0,
+            scale: isSwapping ? 1.03 : 1,
+            duration: 0.2,
+            ease: 'power3.out',
+            overwrite: 'auto',
+          });
+        }
+      });
+
+      prevLeftMapRef.current = nextLeftMap;
 
       if (step.isDone && !prevDoneRef.current) {
         gsap.fromTo(
@@ -38,20 +87,6 @@ export const SortingStage: React.FC<SortingStageProps> = ({
             ease: 'power2.out',
           }
         );
-      } else {
-        bars.forEach((bar, idx) => {
-          const isSwapping = step.swapping.includes(idx);
-          const isComparing = step.comparing.includes(idx);
-          const isPivot = step.pivot === idx;
-
-          gsap.to(bar, {
-            y: isSwapping ? -8 : isComparing || isPivot ? -4 : 0,
-            scale: isSwapping ? 1.04 : 1,
-            duration: 0.2,
-            ease: 'power3.out',
-            overwrite: 'auto',
-          });
-        });
       }
       prevDoneRef.current = Boolean(step.isDone);
     }, containerRef);
@@ -167,23 +202,95 @@ export const SortingStage: React.FC<SortingStageProps> = ({
 
       {/* Visual Bar Arena */}
       <div
-        className={`stage-grid px-3 sm:px-6 pt-8 pb-4 flex flex-col justify-end ${
-          compact ? 'h-56' : 'h-72 sm:h-80'
+        className={`stage-grid px-3 sm:px-6 pt-4 pb-4 flex flex-col justify-end ${
+          compact ? 'h-60' : 'h-76 sm:h-84'
         }`}
       >
-        <div className="flex items-end justify-center gap-1 sm:gap-2 h-full w-full">
+        {/* Merge Sort Divide & Merge Phase Pill */}
+        {step.mergeSplit && (
+          <div className="flex justify-center mb-2">
+            {step.mergeSplit.phase === 'divide' && (
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#E7E5E0] shadow-xs text-[11px] font-medium">
+                <span className="inline-flex items-center gap-1 text-[#7C3AED] font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-[#8B5CF6]" />
+                  Kiri [{step.mergeSplit.left}..{step.mergeSplit.mid}]
+                </span>
+                <span className="text-[#C9C5BC]">|</span>
+                <span className="inline-flex items-center gap-1 text-[#2563EB] font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
+                  Kanan [{step.mergeSplit.mid + 1}..{step.mergeSplit.right}]
+                </span>
+              </div>
+            )}
+            {step.mergeSplit.phase === 'merge' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#6D28D9] text-[11px] font-semibold">
+                <span>
+                  Menggabungkan [{step.mergeSplit.left}..{step.mergeSplit.mid}] + [
+                  {step.mergeSplit.mid + 1}..{step.mergeSplit.right}] → [
+                  {step.mergeSplit.left}..{step.mergeSplit.right}]
+                </span>
+              </div>
+            )}
+            {step.mergeSplit.phase === 'merged' && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#10B981]/15 border border-[#10B981]/30 text-[#065F46] text-[11px] font-semibold">
+                <span>
+                  Tergabung Rapi [{step.mergeSplit.left}..{step.mergeSplit.right}] ✓
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+
+        <div className="flex items-end justify-center gap-1 sm:gap-2 flex-1 min-h-0 w-full">
           {step.array.map((el, idx) => {
             const heightPct = Math.max(12, Math.round((el.value / maxVal) * 100));
             const appearance = getBarAppearance(idx);
             const showNumber = step.array.length <= 20;
 
+            // Merge Sort boundary box / divider styling per slot
+            const ms = step.mergeSplit;
+            const inMergeRange = ms && idx >= ms.left && idx <= ms.right;
+            let slotClass = '';
+            if (ms && inMergeRange) {
+              if (ms.phase === 'divide') {
+                const isLeftPart = idx <= ms.mid;
+                const isMidBoundary = idx === ms.mid;
+                slotClass = isLeftPart
+                  ? `bg-[#8B5CF6]/[0.07] border-t-2 border-[#8B5CF6] ${
+                      idx === ms.left ? 'rounded-tl-lg border-l border-[#8B5CF6]/40' : ''
+                    } ${
+                      isMidBoundary
+                        ? 'border-r-2 border-dashed border-[#8B5CF6] pr-1 sm:pr-1.5'
+                        : ''
+                    }`
+                  : `bg-[#2563EB]/[0.07] border-t-2 border-[#2563EB] ${
+                      idx === ms.mid + 1 ? 'pl-1 sm:pl-1.5' : ''
+                    } ${
+                      idx === ms.right ? 'rounded-tr-lg border-r border-[#2563EB]/40' : ''
+                    }`;
+              } else if (ms.phase === 'merge') {
+                slotClass = `bg-[#8B5CF6]/[0.07] border-t-2 border-[#8B5CF6] ${
+                  idx === ms.left ? 'rounded-tl-lg border-l border-[#8B5CF6]/40' : ''
+                } ${
+                  idx === ms.right ? 'rounded-tr-lg border-r border-[#8B5CF6]/40' : ''
+                }`;
+              } else if (ms.phase === 'merged') {
+                slotClass = `bg-[#10B981]/[0.09] border-t-2 border-[#10B981] ${
+                  idx === ms.left ? 'rounded-tl-lg border-l border-[#10B981]/40' : ''
+                } ${
+                  idx === ms.right ? 'rounded-tr-lg border-r border-[#10B981]/40' : ''
+                }`;
+              }
+            }
+
             return (
               <div
                 key={el.id}
-                className="flex-1 max-w-[48px] h-full flex flex-col justify-end items-center"
+                className={`flex-1 max-w-[48px] h-full flex flex-col justify-end items-center pt-2 px-0.5 transition-colors duration-200 ${slotClass}`}
               >
                 <div
-                  className={`sort-bar w-full rounded-t-lg flex items-start justify-center pt-1.5 transition-[height,background-color] duration-200 ease-out ${appearance.ring}`}
+                  data-el-id={el.id}
+                  className={`sort-bar w-full rounded-t-lg flex items-start justify-center pt-1.5 transition-colors duration-150 ${appearance.ring}`}
                   style={{
                     height: `${heightPct}%`,
                     backgroundColor: appearance.bg,

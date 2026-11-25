@@ -10,9 +10,18 @@ export type PresetType = 'random' | 'nearly-sorted' | 'reversed' | 'few-unique';
 
 export type AppMode = 'learn' | 'race' | 'quiz';
 
+export type CodeLanguage = 'pseudo' | 'python' | 'javascript' | 'dart' | 'java' | 'cpp';
+
 export interface ArrayElement {
   id: string;
   value: number;
+}
+
+export interface MergeSplitState {
+  left: number;
+  mid: number;
+  right: number;
+  phase: 'divide' | 'merge' | 'merged';
 }
 
 export interface SortStep {
@@ -22,6 +31,7 @@ export interface SortStep {
   sorted: number[];
   pivot?: number;
   range?: [number, number];
+  mergeSplit?: MergeSplitState;
   pointers: Record<string, number>;
   narration: string;
   codeLine: number;
@@ -59,5 +69,5 @@ export interface AlgorithmMeta {
     space: string;
   };
   stable: boolean;
-  pseudocode: string[];
+  codeSnippets: Record<CodeLanguage, string[]>;
 }

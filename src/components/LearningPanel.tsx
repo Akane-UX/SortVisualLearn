@@ -1,38 +1,79 @@
 import React, { useState } from 'react';
 import { BookOpen, Code2, Cpu, Lightbulb, Check, X } from 'lucide-react';
-import { AlgorithmMeta } from '../types/sorting';
+import { AlgorithmMeta, CodeLanguage } from '../types/sorting';
 
 interface LearningPanelProps {
   algo: AlgorithmMeta;
   activeCodeLine: number;
 }
 
+const LANGUAGE_OPTIONS: { id: CodeLanguage; label: string }[] = [
+  { id: 'pseudo', label: 'Pseudo' },
+  { id: 'python', label: 'Python' },
+  { id: 'javascript', label: 'JS' },
+  { id: 'dart', label: 'Dart' },
+  { id: 'java', label: 'Java' },
+  { id: 'cpp', label: 'C++' },
+];
+
 export const LearningPanel: React.FC<LearningPanelProps> = ({ algo, activeCodeLine }) => {
   const [tab, setTab] = useState<'materi' | 'kode'>('materi');
+  const [language, setLanguage] = useState<CodeLanguage>('pseudo');
+
+  const lines = algo.codeSnippets[language] ?? algo.codeSnippets.pseudo;
 
   return (
     <div className="space-y-4">
-      {/* Live Pseudocode Card (always visible on desktop, tabbed on mobile or switchable) */}
+      {/* Live Code / Pseudocode Card */}
       <div className="rounded-2xl border border-[#E7E5E0] bg-white shadow-xs overflow-hidden">
-        <div className="px-4 py-3 border-b border-[#EFECE6] bg-[#FAF9F6] flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Code2 className="w-4 h-4 text-[#2563EB]" />
-            <h3 className="font-display font-bold text-sm text-[#141413]">
-              Pelacak Pseudocode Langsung
-            </h3>
+        <div className="px-4 py-3 border-b border-[#EFECE6] bg-[#FAF9F6] space-y-2.5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Code2 className="w-4 h-4 text-[#2563EB]" />
+              <h3 className="font-display font-bold text-sm text-[#141413]">
+                Pelacak Kode Langsung
+              </h3>
+            </div>
+            <span className="text-[11px] font-mono text-[#6B6A65] bg-white px-2 py-0.5 rounded-md border border-[#E7E5E0] tabular-nums">
+              Baris {activeCodeLine}
+            </span>
           </div>
-          <span className="text-[11px] font-mono text-[#6B6A65] bg-white px-2 py-0.5 rounded-md border border-[#E7E5E0]">
-            Baris {activeCodeLine}
-          </span>
+
+          {/* Language Switcher */}
+          <div
+            className="flex flex-wrap items-center gap-1 bg-[#EFECE6] p-1 rounded-xl"
+            role="tablist"
+            aria-label="Pilih bahasa pemrograman"
+          >
+            {LANGUAGE_OPTIONS.map((opt) => {
+              const active = language === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setLanguage(opt.id)}
+                  className={`tactile-btn flex-1 min-w-[46px] px-2 py-1 rounded-lg font-mono text-[11px] font-semibold text-center ${
+                    active
+                      ? 'bg-white text-[#141413] shadow-xs'
+                      : 'text-[#6B6A65] hover:text-[#141413]'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         <div className="p-3 bg-[#171715] text-[#E7E5E0] font-mono text-xs overflow-x-auto">
-          {algo.pseudocode.map((line, idx) => {
+          {lines.map((line, idx) => {
             const lineNum = idx + 1;
             const isActive = activeCodeLine === lineNum;
             return (
               <div
-                key={lineNum}
+                key={`${language}-${lineNum}`}
                 className={`flex items-center gap-3 px-2.5 py-1 rounded-md transition-colors duration-150 ${
                   isActive
                     ? 'bg-[#FF5A36]/20 text-white border-l-2 border-[#FF5A36]'

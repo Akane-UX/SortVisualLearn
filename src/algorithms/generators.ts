@@ -372,8 +372,9 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
       swapping: [],
       sorted: [],
       range: [left, right],
+      mergeSplit: { left, mid, right, phase: 'divide' },
       pointers: { L: left, M: mid, R: right },
-      narration: `Memecah rentang [${left}..${right}] menjadi [${left}..${mid}] dan [${mid + 1}..${right}].`,
+      narration: `Memecah rentang [${left}..${right}] menjadi bagian kiri [${left}..${mid}] dan kanan [${mid + 1}..${right}].`,
       codeLine: 3,
       comparisons,
       swaps,
@@ -391,28 +392,40 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
     let j = 0;
     let k = left;
 
+    // Pindahkan elemen terpilih ke indeks k sambil menjaga keunikan id di seluruh array
+    const placeAt = (chosen: ArrayElement, targetIdx: number) => {
+      const srcIdx = arr.findIndex((item, idx) => idx >= targetIdx && item.id === chosen.id);
+      if (srcIdx > targetIdx) {
+        const [moved] = arr.splice(srcIdx, 1);
+        arr.splice(targetIdx, 0, moved);
+      }
+    };
+
     while (i < leftPart.length && j < rightPart.length) {
       comparisons++;
       const leftVal = leftPart[i].value;
       const rightVal = rightPart[j].value;
+      const leftPos = arr.findIndex((item, idx) => idx >= k && item.id === leftPart[i].id);
+      const rightPos = arr.findIndex((item, idx) => idx >= k && item.id === rightPart[j].id);
       steps.push({
         array: cloneArr(arr),
-        comparing: [left + i, mid + 1 + j].filter((idx) => idx <= right),
+        comparing: [leftPos, rightPos].filter((idx) => idx >= 0 && idx <= right),
         swapping: [],
         sorted: [],
         range: [left, right],
+        mergeSplit: { left, mid, right, phase: 'merge' },
         pointers: { L: left, k, R: right },
-        narration: `Menggabungkan [${left}..${right}]: membandingkan ${leftVal} (kiri) dan ${rightVal} (kanan).`,
+        narration: `Menggabungkan [${left}..${mid}] & [${mid + 1}..${right}]: membandingkan ${leftVal} (kiri) dan ${rightVal} (kanan).`,
         codeLine: 6,
         comparisons,
         swaps,
       });
 
       if (leftVal <= rightVal) {
-        arr[k] = { ...leftPart[i] };
+        placeAt(leftPart[i], k);
         i++;
       } else {
-        arr[k] = { ...rightPart[j] };
+        placeAt(rightPart[j], k);
         j++;
       }
       swaps++;
@@ -422,8 +435,9 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
         swapping: [k],
         sorted: [],
         range: [left, right],
+        mergeSplit: { left, mid, right, phase: 'merge' },
         pointers: { L: left, k, R: right },
-        narration: `Menempatkan nilai lebih kecil (${arr[k].value}) ke posisi indeks ${k}.`,
+        narration: `Memindahkan nilai lebih kecil (${arr[k].value}) ke posisi indeks ${k}.`,
         codeLine: 7,
         comparisons,
         swaps,
@@ -432,7 +446,7 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
     }
 
     while (i < leftPart.length) {
-      arr[k] = { ...leftPart[i] };
+      placeAt(leftPart[i], k);
       swaps++;
       steps.push({
         array: cloneArr(arr),
@@ -440,6 +454,7 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
         swapping: [k],
         sorted: [],
         range: [left, right],
+        mergeSplit: { left, mid, right, phase: 'merge' },
         pointers: { k },
         narration: `Menyalin sisa bagian kiri (${arr[k].value}) ke posisi indeks ${k}.`,
         codeLine: 7,
@@ -451,7 +466,7 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
     }
 
     while (j < rightPart.length) {
-      arr[k] = { ...rightPart[j] };
+      placeAt(rightPart[j], k);
       swaps++;
       steps.push({
         array: cloneArr(arr),
@@ -459,6 +474,7 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
         swapping: [k],
         sorted: [],
         range: [left, right],
+        mergeSplit: { left, mid, right, phase: 'merge' },
         pointers: { k },
         narration: `Menyalin sisa bagian kanan (${arr[k].value}) ke posisi indeks ${k}.`,
         codeLine: 7,
@@ -468,6 +484,20 @@ function mergeSteps(initial: ArrayElement[]): SortStep[] {
       j++;
       k++;
     }
+
+    steps.push({
+      array: cloneArr(arr),
+      comparing: [],
+      swapping: [],
+      sorted: [],
+      range: [left, right],
+      mergeSplit: { left, mid, right, phase: 'merged' },
+      pointers: { L: left, R: right },
+      narration: `Bagian [${left}..${right}] selesai digabungkan menjadi satu kelompok terurut!`,
+      codeLine: 7,
+      comparisons,
+      swaps,
+    });
   }
 
   mergeSort(0, n - 1);
