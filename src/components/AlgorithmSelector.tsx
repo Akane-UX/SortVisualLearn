@@ -22,8 +22,8 @@ export const AlgorithmSelector: React.FC<AlgorithmSelectorProps> = ({ selected, 
             onClick={() => onSelect(id)}
             className={`tactile-btn group relative flex items-center gap-2 px-3.5 py-2 rounded-xl border text-left ${
               isActive
-                ? 'bg-[#141413] text-white border-[#141413] shadow-sm'
-                : 'bg-white text-[#141413] border-[#E7E5E0] hover:border-[#C9C5BC] hover:bg-[#FAF9F5]'
+                ? 'bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] border-[#141413] dark:border-[#F4F4F0] shadow-sm'
+                : 'bg-white dark:bg-[#1A1A18] text-[#141413] dark:text-[#F4F4F0] border-[#E7E5E0] dark:border-[#2A2A26] hover:border-[#C9C5BC] dark:hover:border-[#42423D] hover:bg-[#FAF9F5] dark:hover:bg-[#22221F]'
             }`}
           >
             <span
@@ -34,8 +34,8 @@ export const AlgorithmSelector: React.FC<AlgorithmSelectorProps> = ({ selected, 
             <span
               className={`text-[10px] font-mono px-1.5 py-0.5 rounded-md ${
                 isActive
-                  ? 'bg-white/15 text-white/90'
-                  : 'bg-[#F3F1EC] text-[#6B6A65]'
+                  ? 'bg-white/15 dark:bg-[#141413]/15 text-white/90 dark:text-[#141413]'
+                  : 'bg-[#F3F1EC] dark:bg-[#252522] text-[#6B6A65] dark:text-[#A6A49C]'
               }`}
             >
               {algo.complexity.average}

@@ -29,8 +29,24 @@ export function App() {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [speed, setSpeed] = useState<number>(1);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(true);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    const saved = window.localStorage.getItem('svl-theme');
+    if (saved) return saved === 'dark';
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
+  });
 
   const pageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    window.localStorage.setItem('svl-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
 
   // Initial GSAP entrance choreography
   useEffect(() => {
@@ -151,7 +167,7 @@ export function App() {
   }, [mode, handleTogglePlay, handleStepForward, handleStepBack, handleShuffle]);
 
   return (
-    <div ref={pageRef} className="min-h-screen flex flex-col bg-[#FAFAF8] text-[#141413]">
+    <div ref={pageRef} className="min-h-screen flex flex-col bg-[#FAFAF8] dark:bg-[#111110] text-[#141413] dark:text-[#F4F4F0] transition-colors duration-200">
       <Navbar
         mode={mode}
         onModeChange={(nextMode) => {
@@ -160,6 +176,8 @@ export function App() {
         }}
         soundEnabled={soundEnabled}
         onToggleSound={handleToggleSound}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode((d) => !d)}
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
@@ -176,17 +194,17 @@ export function App() {
                     >
                       Level {algoMeta.difficulty}
                     </span>
-                    <span className="text-xs text-[#6B6A65] font-mono">
+                    <span className="text-xs text-[#6B6A65] dark:text-[#A6A49C] font-mono">
                       Kompleksitas Rata-rata: {algoMeta.complexity.average}
                     </span>
                   </div>
-                  <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#141413]">
+                  <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#141413] dark:text-[#F4F4F0]">
                     {algoMeta.name}
                   </h1>
-                  <p className="text-sm text-[#575651] mt-0.5">{algoMeta.tagline}</p>
+                  <p className="text-sm text-[#575651] dark:text-[#A6A49C] mt-0.5">{algoMeta.tagline}</p>
                 </div>
 
-                <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-[#7D7B75] bg-white px-3 py-1.5 rounded-xl border border-[#E7E5E0]">
+                <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-[#7D7B75] dark:text-[#A6A49C] bg-white dark:bg-[#1A1A18] px-3 py-1.5 rounded-xl border border-[#E7E5E0] dark:border-[#2A2A26]">
                   <Keyboard className="w-3.5 h-3.5" />
                   <span>Spasi: Putar • ←/→: Langkah • R: Acak</span>
                 </div>

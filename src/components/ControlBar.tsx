@@ -81,7 +81,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-[#E7E5E0] bg-white p-4 shadow-xs space-y-4">
+    <div className="rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] p-4 shadow-xs space-y-4">
       {/* Row 1: Playback Controls + Timeline Scrubber */}
       <div className="flex flex-col md:flex-row md:items-center gap-4">
         <div className="flex items-center gap-1.5">
@@ -89,7 +89,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             type="button"
             onClick={onReset}
             title="Ulang dari awal"
-            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] bg-white hover:bg-[#FAF9F5] text-[#141413]"
+            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0]"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -99,7 +99,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             onClick={onStepBack}
             disabled={currentStep <= 0}
             title="Langkah sebelumnya (Panah Kiri)"
-            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] bg-white hover:bg-[#FAF9F5] text-[#141413] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <SkipBack className="w-4 h-4" />
           </button>
@@ -108,7 +108,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             type="button"
             onClick={onTogglePlay}
             title="Putar / Jeda (Spasi)"
-            className="tactile-btn flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#141413] hover:bg-[#2A2A27] text-white font-semibold text-sm shadow-xs"
+            className="tactile-btn flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#141413] dark:bg-[#F4F4F0] hover:bg-[#2A2A27] dark:hover:bg-[#E2E0D8] text-white dark:text-[#141413] font-semibold text-sm shadow-xs"
           >
             {isPlaying ? (
               <>
@@ -128,7 +128,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             onClick={onStepForward}
             disabled={currentStep >= totalSteps - 1}
             title="Langkah berikutnya (Panah Kanan)"
-            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] bg-white hover:bg-[#FAF9F5] text-[#141413] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <SkipForward className="w-4 h-4" />
           </button>
@@ -137,7 +137,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             type="button"
             onClick={onShuffle}
             title="Acak data baru (R)"
-            className="tactile-btn flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-[#E7E5E0] bg-[#FAF9F5] hover:bg-[#EFECE6] text-[#141413] text-xs font-semibold"
+            className="tactile-btn flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-[#FAF9F5] dark:bg-[#22221F] hover:bg-[#EFECE6] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
           >
             <Shuffle className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Acak Baru</span>
@@ -155,18 +155,18 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             aria-label="Timeline langkah sorting"
             className="studio-slider flex-1"
           />
-          <span className="font-mono text-xs font-medium text-[#575651] tabular-nums whitespace-nowrap">
+          <span className="font-mono text-xs font-medium text-[#575651] dark:text-[#A6A49C] tabular-nums whitespace-nowrap">
             Langkah {currentStep + 1} / {totalSteps}
           </span>
         </div>
       </div>
 
       {/* Row 2: Speed, Size, Presets, Custom */}
-      <div className="pt-3 border-t border-[#EFECE6] flex flex-wrap items-center justify-between gap-4">
+      <div className="pt-3 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-wrap items-center justify-between gap-4">
         {/* Speed */}
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-[#6B6A65]">Kecepatan:</span>
-          <div className="flex items-center bg-[#F3F1EC] p-0.5 rounded-lg border border-[#E7E5E0]">
+          <span className="text-xs font-medium text-[#6B6A65] dark:text-[#A6A49C]">Kecepatan:</span>
+          <div className="flex items-center bg-[#F3F1EC] dark:bg-[#22221F] p-0.5 rounded-lg border border-[#E7E5E0] dark:border-[#2E2E2A]">
             {speeds.map((s) => (
               <button
                 key={s}
@@ -174,8 +174,8 @@ export const ControlBar: React.FC<ControlBarProps> = ({
                 onClick={() => onSpeedChange(s)}
                 className={`tactile-btn px-2.5 py-1 rounded-md text-xs font-mono font-semibold tabular-nums ${
                   speed === s
-                    ? 'bg-white text-[#141413] shadow-xs'
-                    : 'text-[#6B6A65] hover:text-[#141413]'
+                    ? 'bg-white dark:bg-[#32322D] text-[#141413] dark:text-[#F4F4F0] shadow-xs'
+                    : 'text-[#6B6A65] dark:text-[#A6A49C] hover:text-[#141413] dark:hover:text-[#F4F4F0]'
                 }`}
               >
                 {s}x
@@ -186,7 +186,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
 
         {/* Size */}
         <div className="flex items-center gap-2.5">
-          <span className="text-xs font-medium text-[#6B6A65]">Jumlah Data:</span>
+          <span className="text-xs font-medium text-[#6B6A65] dark:text-[#A6A49C]">Jumlah Data:</span>
           <input
             type="range"
             min={6}
@@ -196,7 +196,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             aria-label="Jumlah elemen array"
             className="studio-slider w-24"
           />
-          <span className="font-mono text-xs font-semibold text-[#141413] tabular-nums w-6">
+          <span className="font-mono text-xs font-semibold text-[#141413] dark:text-[#F4F4F0] tabular-nums w-6">
             {arraySize}
           </span>
         </div>
@@ -210,8 +210,8 @@ export const ControlBar: React.FC<ControlBarProps> = ({
               onClick={() => onPresetChange(p.id)}
               className={`tactile-btn px-2.5 py-1 rounded-lg text-xs font-medium border ${
                 preset === p.id
-                  ? 'bg-[#141413] text-white border-[#141413]'
-                  : 'bg-[#FAF9F6] text-[#575651] border-[#E7E5E0] hover:border-[#C9C5BC]'
+                  ? 'bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] border-[#141413] dark:border-[#F4F4F0]'
+                  : 'bg-[#FAF9F6] dark:bg-[#22221F] text-[#575651] dark:text-[#A6A49C] border-[#E7E5E0] dark:border-[#2E2E2A] hover:border-[#C9C5BC] dark:hover:border-[#42423D]'
               }`}
             >
               {p.label}
@@ -223,7 +223,7 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             className={`tactile-btn flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border ${
               showCustom
                 ? 'bg-[#2563EB] text-white border-[#2563EB]'
-                : 'bg-white text-[#2563EB] border-[#2563EB]/30 hover:bg-[#2563EB]/5'
+                : 'bg-white dark:bg-[#22221F] text-[#2563EB] dark:text-[#60A5FA] border-[#2563EB]/30 hover:bg-[#2563EB]/5'
             }`}
           >
             <SlidersHorizontal className="w-3 h-3" />
@@ -236,14 +236,14 @@ export const ControlBar: React.FC<ControlBarProps> = ({
       {showCustom && (
         <form
           onSubmit={handleApplyCustom}
-          className="pt-3 border-t border-[#EFECE6] flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5"
+          className="pt-3 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5"
         >
           <input
             type="text"
             value={customText}
             onChange={(e) => setCustomText(e.target.value)}
             placeholder="Contoh: 45, 18, 72, 29, 90, 14"
-            className="flex-1 px-3 py-2 rounded-xl border border-[#D8D5CD] bg-[#FAF9F6] font-mono text-xs focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+            className="flex-1 px-3 py-2 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#141413] text-[#141413] dark:text-[#F4F4F0] font-mono text-xs focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
           />
           <button
             type="submit"

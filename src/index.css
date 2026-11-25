@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
@@ -13,6 +14,12 @@
     color: #141413;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  .dark body {
+    background-color: #111110;
+    color: #f4f4f0;
   }
 
   h1, h2, h3, .font-display {
@@ -51,6 +58,11 @@
   background-size: 20px 20px;
 }
 
+.dark .stage-grid {
+  background-color: #181816;
+  background-image: radial-gradient(#2d2d29 1px, transparent 1px);
+}
+
 /* Custom range slider for baseline UI polish */
 input[type="range"].studio-slider {
   -webkit-appearance: none;
@@ -65,6 +77,10 @@ input[type="range"].studio-slider::-webkit-slider-runnable-track {
   background: #e7e5e0;
 }
 
+.dark input[type="range"].studio-slider::-webkit-slider-runnable-track {
+  background: #2f2f2b;
+}
+
 input[type="range"].studio-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -76,6 +92,11 @@ input[type="range"].studio-slider::-webkit-slider-thumb {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
   margin-top: -5px;
   transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark input[type="range"].studio-slider::-webkit-slider-thumb {
+  background: #f4f4f0;
+  border-color: #181816;
 }
 
 input[type="range"].studio-slider:hover::-webkit-slider-thumb {

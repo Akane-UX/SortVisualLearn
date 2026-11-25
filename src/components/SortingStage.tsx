@@ -126,9 +126,9 @@ export const SortingStage: React.FC<SortingStageProps> = ({
     const inRange =
       step.range && idx >= step.range[0] && idx <= step.range[1];
     return {
-      bg: inRange ? '#3F3F46' : '#1E1E1C',
+      bg: inRange ? '#3F3F46' : '#2D2D2A',
       text: '#FFFFFF',
-      ring: inRange ? 'ring-1 ring-[#8B5CF6]/30' : '',
+      ring: inRange ? 'ring-1 ring-[#8B5CF6]/40' : '',
     };
   };
 
@@ -144,22 +144,22 @@ export const SortingStage: React.FC<SortingStageProps> = ({
   return (
     <div
       ref={containerRef}
-      className="rounded-2xl border border-[#E7E5E0] bg-white shadow-xs overflow-hidden"
+      className="rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] shadow-xs overflow-hidden"
     >
       {/* Top Stage Header: Metrics + Legend */}
-      <div className="px-4 sm:px-5 py-3 border-b border-[#EFECE6] bg-[#FAF9F6] flex flex-wrap items-center justify-between gap-3">
+      <div className="px-4 sm:px-5 py-3 border-b border-[#EFECE6] dark:border-[#2A2A26] bg-[#FAF9F6] dark:bg-[#151513] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           {title && (
-            <span className="font-display font-bold text-sm text-[#141413]">
+            <span className="font-display font-bold text-sm text-[#141413] dark:text-[#F4F4F0]">
               {title}
             </span>
           )}
           <div className="flex items-center gap-2 text-xs font-medium">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-[#E7E5E0] text-[#141413] tabular-nums">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] tabular-nums">
               <Eye className="w-3.5 h-3.5 text-[#FF5A36]" />
               Banding: <strong>{step.comparisons}</strong>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white border border-[#E7E5E0] text-[#141413] tabular-nums">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] tabular-nums">
               <ArrowLeftRight className="w-3.5 h-3.5 text-[#F59E0B]" />
               Tukar/Tulis: <strong>{step.swaps}</strong>
             </span>
@@ -167,7 +167,7 @@ export const SortingStage: React.FC<SortingStageProps> = ({
         </div>
 
         {!compact && (
-          <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium text-[#575651]">
+          <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium text-[#575651] dark:text-[#A6A49C]">
             <span className="inline-flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#FF5A36]" /> Bandingkan
             </span>
@@ -186,10 +186,10 @@ export const SortingStage: React.FC<SortingStageProps> = ({
 
       {/* Live Narration Banner */}
       <div
-        className={`px-4 sm:px-5 py-2.5 border-b border-[#EFECE6] flex items-center gap-2.5 text-xs sm:text-sm ${
+        className={`px-4 sm:px-5 py-2.5 border-b border-[#EFECE6] dark:border-[#2A2A26] flex items-center gap-2.5 text-xs sm:text-sm ${
           step.isDone
-            ? 'bg-[#10B981]/10 text-[#065F46]'
-            : 'bg-[#FFFDF9] text-[#2B2A27]'
+            ? 'bg-[#10B981]/10 dark:bg-[#10B981]/15 text-[#065F46] dark:text-[#6EE7B7]'
+            : 'bg-[#FFFDF9] dark:bg-[#1E1E1B] text-[#2B2A27] dark:text-[#E7E5E0]'
         }`}
       >
         {step.isDone ? (

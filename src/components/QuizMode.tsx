@@ -44,23 +44,23 @@ export const QuizMode: React.FC = () => {
 
   if (finished) {
     return (
-      <div className="max-w-2xl mx-auto rounded-2xl border border-[#E7E5E0] bg-white p-8 text-center shadow-xs space-y-5">
+      <div className="max-w-2xl mx-auto rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] p-8 text-center shadow-xs space-y-5">
         <div className="w-16 h-16 rounded-2xl bg-[#10B981]/15 text-[#10B981] flex items-center justify-center mx-auto">
           <CheckCircle2 className="w-9 h-9" />
         </div>
         <div className="space-y-1">
-          <h2 className="font-display font-bold text-2xl text-[#141413]">
+          <h2 className="font-display font-bold text-2xl text-[#141413] dark:text-[#F4F4F0]">
             Kuis Selesai!
           </h2>
-          <p className="text-sm text-[#575651]">
-            Kamu menjawab benar <strong className="text-[#141413]">{score}</strong> dari{' '}
-            <strong className="text-[#141413]">{QUIZ_QUESTIONS.length}</strong> pertanyaan.
+          <p className="text-sm text-[#575651] dark:text-[#A6A49C]">
+            Kamu menjawab benar <strong className="text-[#141413] dark:text-[#F4F4F0]">{score}</strong> dari{' '}
+            <strong className="text-[#141413] dark:text-[#F4F4F0]">{QUIZ_QUESTIONS.length}</strong> pertanyaan.
           </p>
         </div>
         <button
           type="button"
           onClick={handleRestart}
-          className="tactile-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#141413] text-white text-sm font-semibold"
+          className="tactile-btn inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] text-sm font-semibold"
         >
           <RotateCcw className="w-4 h-4" />
           Ulangi Kuis
@@ -70,25 +70,25 @@ export const QuizMode: React.FC = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto rounded-2xl border border-[#E7E5E0] bg-white shadow-xs overflow-hidden">
+    <div className="max-w-2xl mx-auto rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] shadow-xs overflow-hidden">
       {/* Header */}
-      <div className="px-5 py-3.5 border-b border-[#EFECE6] bg-[#FAF9F6] flex items-center justify-between">
+      <div className="px-5 py-3.5 border-b border-[#EFECE6] dark:border-[#2A2A26] bg-[#FAF9F6] dark:bg-[#151513] flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span
             className="w-2.5 h-2.5 rounded-full"
             style={{ backgroundColor: algo.accentColor }}
           />
-          <span className="font-display font-bold text-sm text-[#141413]">
+          <span className="font-display font-bold text-sm text-[#141413] dark:text-[#F4F4F0]">
             Topik: {algo.name}
           </span>
         </div>
 
         <div className="flex items-center gap-3 text-xs font-mono tabular-nums">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#F59E0B]/15 text-[#92400E] font-semibold">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#F59E0B]/15 text-[#92400E] dark:text-[#FCD34D] font-semibold">
             <Flame className="w-3.5 h-3.5 text-[#F59E0B]" />
             Streak: {streak}
           </span>
-          <span className="text-[#6B6A65]">
+          <span className="text-[#6B6A65] dark:text-[#A6A49C]">
             Soal {index + 1} / {QUIZ_QUESTIONS.length}
           </span>
         </div>
@@ -96,7 +96,7 @@ export const QuizMode: React.FC = () => {
 
       {/* Question Body */}
       <div className="p-5 sm:p-6 space-y-5">
-        <h3 className="font-display font-bold text-base sm:text-lg text-[#141413] leading-snug">
+        <h3 className="font-display font-bold text-base sm:text-lg text-[#141413] dark:text-[#F4F4F0] leading-snug">
           {q.question}
         </h3>
 
@@ -106,14 +106,14 @@ export const QuizMode: React.FC = () => {
             const isThisCorrect = idx === q.correctIndex;
 
             let style =
-              'border-[#E7E5E0] bg-white hover:border-[#C9C5BC] hover:bg-[#FAF9F6] text-[#141413]';
+              'border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:border-[#C9C5BC] dark:hover:border-[#42423D] hover:bg-[#FAF9F6] dark:hover:bg-[#2A2A26] text-[#141413] dark:text-[#F4F4F0]';
             if (hasAnswered) {
               if (isThisCorrect) {
-                style = 'border-[#10B981] bg-[#10B981]/10 text-[#065F46]';
+                style = 'border-[#10B981] bg-[#10B981]/10 text-[#065F46] dark:text-[#6EE7B7]';
               } else if (isThisSelected) {
-                style = 'border-[#FF5A36] bg-[#FF5A36]/10 text-[#9A3412]';
+                style = 'border-[#FF5A36] bg-[#FF5A36]/10 text-[#9A3412] dark:text-[#FDBA74]';
               } else {
-                style = 'border-[#EFECE6] bg-[#FAF9F6] text-[#8E8C84] opacity-70';
+                style = 'border-[#EFECE6] dark:border-[#262622] bg-[#FAF9F6] dark:bg-[#171715] text-[#8E8C84] opacity-70';
               }
             }
 
