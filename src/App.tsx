@@ -7,7 +7,7 @@ import {
   generatePresetValues,
   generateSortSteps,
 } from './algorithms/generators';
-import { AlgorithmId, AppMode, PresetType } from './types/sorting';
+import { AlgorithmId, AppMode, PresetType, TopicDomain } from './types/sorting';
 import { soundEngine } from './utils/sound';
 import { Navbar } from './components/Navbar';
 import { AlgorithmSelector } from './components/AlgorithmSelector';
@@ -16,8 +16,10 @@ import { ControlBar } from './components/ControlBar';
 import { LearningPanel } from './components/LearningPanel';
 import { RaceMode } from './components/RaceMode';
 import { QuizMode } from './components/QuizMode';
+import { SearchWorkspace } from './components/SearchWorkspace';
 
 export function App() {
+  const [topic, setTopic] = useState<TopicDomain>('sort');
   const [mode, setMode] = useState<AppMode>('learn');
   const [selectedAlgo, setSelectedAlgo] = useState<AlgorithmId>('bubble');
   const [arraySize, setArraySize] = useState<number>(12);
@@ -90,7 +92,7 @@ export function App() {
 
   // Playback timer
   useEffect(() => {
-    if (!isPlaying || mode !== 'learn') return;
+    if (!isPlaying || topic !== 'sort' || mode !== 'learn') return;
     if (stepIdx >= steps.length - 1) {
       setIsPlaying(false);
       return;
@@ -104,7 +106,7 @@ export function App() {
     }, delayMs);
 
     return () => window.clearTimeout(timer);
-  }, [isPlaying, mode, stepIdx, steps.length, speed, triggerStepAudio]);
+  }, [isPlaying, topic, mode, stepIdx, steps.length, speed, triggerStepAudio]);
 
   const handleToggleSound = () => {
     const next = !soundEnabled;
@@ -141,9 +143,9 @@ export function App() {
     setStepIdx((prev) => Math.max(0, prev - 1));
   }, []);
 
-  // Keyboard shortcuts in Learn mode
+  // Keyboard shortcuts in Learn mode (Sort)
   useEffect(() => {
-    if (mode !== 'learn') return;
+    if (topic !== 'sort' || mode !== 'learn') return;
     const onKeyDown = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
@@ -164,11 +166,16 @@ export function App() {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [mode, handleTogglePlay, handleStepForward, handleStepBack, handleShuffle]);
+  }, [topic, mode, handleTogglePlay, handleStepForward, handleStepBack, handleShuffle]);
 
   return (
     <div ref={pageRef} className="min-h-screen flex flex-col bg-[#FAFAF8] dark:bg-[#111110] text-[#141413] dark:text-[#F4F4F0] transition-colors duration-200">
       <Navbar
+        topic={topic}
+        onTopicChange={(nextTopic) => {
+          setIsPlaying(false);
+          setTopic(nextTopic);
+        }}
         mode={mode}
         onModeChange={(nextMode) => {
           setIsPlaying(false);
@@ -181,7 +188,11 @@ export function App() {
       />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
-        {mode === 'learn' && (
+        {topic === 'search' ? (
+          <SearchWorkspace mode={mode} soundEnabled={soundEnabled} />
+        ) : (
+          <>
+            {mode === 'learn' && (
           <>
             {/* Compact Hero Header + Algorithm Pills */}
             <section className="hero-reveal space-y-3">
@@ -279,6 +290,8 @@ export function App() {
         {mode === 'race' && <RaceMode />}
 
         {mode === 'quiz' && <QuizMode />}
+          </>
+        )}
       </main>
     </div>
   );

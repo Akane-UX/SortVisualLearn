@@ -1,36 +1,47 @@
 # SortVisualLearn
 
-Aplikasi web interaktif untuk belajar algoritma sorting secara visual. Dibuat supaya konsep seperti *pivot*, *max-heap*, atau kenapa `O(n log n)` jauh lebih cepat daripada `O(n²)` bisa langsung kelihatan di layar—bukan cuma dibayangkan dari rumus atau potongan kode statis.
+Aplikasi web interaktif untuk belajar algoritma **Sorting** dan **Searching** secara visual. Dibuat supaya konsep seperti *pivot*, pemangkasan ruang pencarian di *Binary Search*, pembagian sub-array di *Merge Sort*, atau kenapa `O(n log n)` jauh lebih cepat daripada `O(n²)` bisa langsung kelihatan di layar—bukan cuma dibayangkan dari rumus atau potongan kode statis.
 
-Seluruh materi, narasi langkah, dan antarmuka ditulis dalam bahasa Indonesia yang santai dan mudah diikuti.
+Seluruh materi, narasi langkah, dan antarmuka ditulis dalam bahasa Indonesia yang santai dan mudah diikuti, lengkap dengan **Dark Mode** dan **efek suara ringan**.
 
 ---
 
-## Apa saja yang bisa dicoba?
+## Dua Topik Pembelajaran
 
-### 1. Mode Visualisasi & Materi
-- **6 algoritma sorting**: Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, dan Heap Sort.
-- **Narasi langsung tiap langkah**: Setiap kali dua angka dibandingkan atau ditukar, ada penjelasan singkat di atas panggung tentang apa yang sedang terjadi dan kenapa.
-- **Pelacak pseudocode**: Baris pseudocode yang sedang dieksekusi ikut tersorot secara real-time mengikuti langkah animasi.
-- **Kontrol penuh**: Putar otomatis (0.5x sampai 4x), jeda, maju/mundur satu langkah pakai tombol atau panah keyboard, serta *timeline scrubber* untuk menggeser ke langkah mana saja.
-- **Data fleksibel**: Bisa pakai preset (*Acak*, *Hampir Urut*, *Terbalik*, *Banyak Kembar*), atur jumlah bar (6–22), atau masukkan angka sendiri (4–24 angka antara 5–100).
-- **Analogi & kompleksitas**: Tiap algoritma dilengkapi analogi sehari-hari, langkah kerja, kapan sebaiknya dipakai, kelebihan/kekurangan, serta tabel Best/Average/Worst/Space complexity.
-- **Efek suara ringan (opsional)**: Nada Web Audio API yang berubah sesuai nilai bar saat membandingkan atau menukar elemen, plus tombol mute di header.
+Di bagian header tersedia tombol switcher terpisah untuk berpindah antara topik **Sorting** dan **Searching**, masing-masing memiliki tiga mode: **Visualisasi & Materi**, **Duel Algoritma**, dan **Kuis Interaktif**.
 
-### 2. Mode Duel Algoritma
-Pilih dua algoritma berbeda—misalnya Bubble Sort melawan Quick Sort—lalu jalankan keduanya pada susunan angka yang persis sama. Jumlah perbandingan, pertukaran, dan total langkah langsung terlihat berdampingan sampai pemenangnya keluar.
+### 1. Sorting (6 Algoritma)
+Mencakup **Bubble Sort**, **Selection Sort**, **Insertion Sort**, **Merge Sort**, **Quick Sort**, dan **Heap Sort**.
+- **Animasi pertukaran fisik (GSAP FLIP)**: Bar benar-benar meluncur bertukar tempat setelah dibandingkan, bukan berubah tinggi di tempat.
+- **Batas visual Divide & Merge di Merge Sort**: Rentang kiri dan kanan dibatasi kotak warna berbeda dengan garis pemisah saat dipecah, lalu menyatu saat digabungkan kembali.
+- **Data fleksibel**: Bisa pakai preset (*Acak*, *Hampir Urut*, *Terbalik*, *Banyak Kembar*), atur jumlah data (6–22), atau masukkan angka sendiri (4–24 angka antara 5–100).
 
-### 3. Mode Kuis Interaktif
-Kumpulan soal singkat untuk menguji pemahaman konsep tiap algoritma, lengkap dengan *streak counter* dan penjelasan langsung setelah memilih jawaban.
+### 2. Searching (4 Algoritma)
+Mencakup **Linear Search**, **Binary Search**, **Jump Search**, dan **Interpolation Search**.
+- **Kartu indeks interaktif**: Klik angka mana saja langsung di panggung untuk menjadikannya target pencarian, atau gunakan input target serta tombol cepat *Target Ada* / *Target Tidak Ada*.
+- **Visualisasi pemangkasan area**: Elemen yang sudah tidak mungkin mengandung target otomatis meredup agar cara kerja *Binary*, *Jump*, dan *Interpolation Search* mudah dipahami.
+- **Pengaturan data**: Atur jumlah data (6–20) dan ubah antara data acak atau terurut pada Linear Search.
+
+---
+
+## Fitur Pendukung di Kedua Topik
+
+- **Pelacak kode multi-bahasa**: Baris kode yang sedang dieksekusi tersorot real-time mengikuti animasi. Bahasa bisa diganti kapan saja antara **Pseudocode**, **Python**, **JavaScript**, **Dart**, **Java**, dan **C++**.
+- **Narasi langsung tiap langkah**: Penjelasan singkat di atas panggung tentang apa yang sedang dibandingkan, ditukar, atau dipangkas.
+- **Kontrol playback lengkap**: Putar otomatis (0.5x sampai 4x), jeda, maju/mundur satu langkah, dan *timeline scrubber*.
+- **Materi analogi & kompleksitas**: Analogi sehari-hari, langkah kerja utama, kapan sebaiknya dipakai, kelebihan/kekurangan, serta kompleksitas Best/Average/Worst/Space.
+- **Mode Duel Algoritma**: Adu dua algoritma secara berdampingan pada data yang sama persis—bisa atur jumlah data dan pola datanya—lalu lihat perbandingan jumlah langkah atau pengecekannya.
+- **Mode Kuis Interaktif**: Bank soal terpisah untuk Sorting dan Searching, lengkap dengan *streak counter* dan penjelasan langsung.
+- **Dark Mode & Audio Feedback**: Toggle tema terang/gelap di header (tersimpan di `localStorage`) serta nada Web Audio API opsional yang mengikuti nilai elemen.
 
 ---
 
 ## Teknologi yang Dipakai
 
-- **React 19 + TypeScript** untuk struktur komponen dan generator langkah yang deterministik.
+- **React 19 + TypeScript** untuk struktur komponen dan generator langkah deterministik.
 - **Vite** untuk development server dan production build.
-- **Tailwind CSS v4** (`@tailwindcss/vite`) untuk styling.
-- **GSAP** untuk animasi bar saat dibandingkan, ditukar, serta efek *cascade* ketika array selesai terurut.
+- **Tailwind CSS v4** (`@tailwindcss/vite`) untuk styling dan dukungan dark mode.
+- **GSAP** untuk animasi pertukaran fisik (FLIP), highlight kartu pencarian, dan efek *cascade* saat selesai.
 - **Lucide React** untuk ikon antarmuka.
 - **Web Audio API** bawaan browser (tanpa file audio eksternal).
 
@@ -59,7 +70,7 @@ npm run preview
 
 ---
 
-## Shortcut Keyboard (di Mode Visualisasi)
+## Shortcut Keyboard (di Mode Visualisasi & Materi)
 
 | Tombol | Fungsi |
 | :--- | :--- |
@@ -75,24 +86,33 @@ npm run preview
 ```text
 src/
 ├── algorithms/
-│   └── generators.ts       # Generator langkah deterministik untuk 6 algoritma
+│   ├── generators.ts            # Generator langkah untuk 6 algoritma sorting
+│   └── searchGenerators.ts      # Generator langkah untuk 4 algoritma searching
 ├── components/
-│   ├── AlgorithmSelector.tsx
-│   ├── ControlBar.tsx      # Kontrol playback, kecepatan, ukuran data, & input kustom
-│   ├── LearningPanel.tsx   # Pelacak pseudocode & kartu materi/kompleksitas
-│   ├── Navbar.tsx          # Navigasi mode & toggle suara
-│   ├── QuizMode.tsx        # Kuis interaktif dengan streak
-│   ├── RaceMode.tsx        # Mode duel dua algoritma berdampingan
-│   └── SortingStage.tsx    # Panggung visualisasi bar dengan animasi GSAP
+│   ├── AlgorithmSelector.tsx    # Pemilih algoritma sorting
+│   ├── ControlBar.tsx           # Kontrol playback, kecepatan, jumlah data, & input kustom (sort)
+│   ├── LearningPanel.tsx        # Pelacak kode multi-bahasa & materi (sort)
+│   ├── Navbar.tsx               # Switcher Sorting/Searching, mode, tema, & suara
+│   ├── QuizMode.tsx             # Kuis interaktif sorting
+│   ├── RaceMode.tsx             # Mode duel dua algoritma sorting
+│   ├── SearchLearningPanel.tsx  # Pelacak kode multi-bahasa & materi (search)
+│   ├── SearchQuizMode.tsx       # Kuis interaktif searching
+│   ├── SearchRaceMode.tsx       # Mode duel dua algoritma searching
+│   ├── SearchStage.tsx          # Panggung kartu interaktif untuk searching
+│   ├── SearchWorkspace.tsx      # Workspace utama topik searching
+│   └── SortingStage.tsx         # Panggung bar animasi GSAP FLIP untuk sorting
 ├── data/
-│   └── algorithms.ts       # Materi, analogi, pseudocode, & bank soal kuis
+│   ├── algorithms.ts            # Materi, snippet 6 bahasa, & kuis sorting
+│   └── searchAlgorithms.ts      # Materi, snippet 6 bahasa, & kuis searching
 ├── types/
-│   └── sorting.ts          # Definisi tipe TypeScript
+│   ├── searching.ts             # Definisi tipe modul searching
+│   └── sorting.ts               # Definisi tipe modul sorting & global
 ├── utils/
-│   └── sound.ts            # Synthesizer Web Audio API
+│   └── sound.ts                 # Synthesizer Web Audio API
 ├── App.tsx
 ├── index.css
-└── main.tsx
+├── main.tsx
+└── vite-env.d.ts
 ```
 
 ---

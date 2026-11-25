@@ -1,8 +1,20 @@
 import React from 'react';
-import { Volume2, VolumeX, Swords, GraduationCap, Sparkles, Sun, Moon } from 'lucide-react';
-import { AppMode } from '../types/sorting';
+import {
+  Volume2,
+  VolumeX,
+  Swords,
+  GraduationCap,
+  Sparkles,
+  Sun,
+  Moon,
+  ArrowUpDown,
+  Search,
+} from 'lucide-react';
+import { AppMode, TopicDomain } from '../types/sorting';
 
 interface NavbarProps {
+  topic: TopicDomain;
+  onTopicChange: (topic: TopicDomain) => void;
   mode: AppMode;
   onModeChange: (mode: AppMode) => void;
   soundEnabled: boolean;
@@ -12,6 +24,8 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
+  topic,
+  onTopicChange,
   mode,
   onModeChange,
   soundEnabled,
@@ -27,7 +41,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-30 border-b border-[#E7E5E0] dark:border-[#2A2A26] bg-[#FAFAF8]/85 dark:bg-[#111110]/85 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 min-h-16 py-2 flex flex-wrap items-center justify-between gap-3">
         {/* Brand */}
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-[#141413] dark:bg-[#232320] text-white flex items-center justify-center shadow-sm border border-transparent dark:border-[#34342F]">
@@ -41,10 +55,42 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="font-display font-bold text-lg tracking-tight text-[#141413] dark:text-[#F4F4F0]">
               SortVisual<span className="text-[#FF5A36]">Learn</span>
             </span>
-            <p className="text-[11px] text-[#6B6A65] dark:text-[#A6A49C] hidden sm:block leading-none mt-0.5">
-              Studio Belajar Algoritma Sorting Interaktif
+            <p className="text-[11px] text-[#6B6A65] dark:text-[#A6A49C] hidden xl:block leading-none mt-0.5">
+              Studio Belajar Sorting & Searching Interaktif
             </p>
           </div>
+        </div>
+
+        {/* Dedicated Topic Switcher: Sort vs Search */}
+        <div
+          role="group"
+          aria-label="Pilih Topik Pembelajaran"
+          className="flex items-center gap-1.5 bg-[#EFECE6] dark:bg-[#1E1E1B] p-1 rounded-xl border border-[#E2DFD7] dark:border-[#2E2E2A]"
+        >
+          <button
+            type="button"
+            onClick={() => onTopicChange('sort')}
+            className={`tactile-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold ${
+              topic === 'sort'
+                ? 'bg-[#FF5A36] text-white shadow-xs'
+                : 'text-[#6B6A65] dark:text-[#A6A49C] hover:text-[#141413] dark:hover:text-[#F4F4F0]'
+            }`}
+          >
+            <ArrowUpDown className="w-3.5 h-3.5" />
+            <span>Sorting</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => onTopicChange('search')}
+            className={`tactile-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold ${
+              topic === 'search'
+                ? 'bg-[#2563EB] text-white shadow-xs'
+                : 'text-[#6B6A65] dark:text-[#A6A49C] hover:text-[#141413] dark:hover:text-[#F4F4F0]'
+            }`}
+          >
+            <Search className="w-3.5 h-3.5" />
+            <span>Searching</span>
+          </button>
         </div>
 
         {/* Mode Switcher */}

@@ -10,6 +10,8 @@ export type PresetType = 'random' | 'nearly-sorted' | 'reversed' | 'few-unique';
 
 export type AppMode = 'learn' | 'race' | 'quiz';
 
+export type TopicDomain = 'sort' | 'search';
+
 export type CodeLanguage = 'pseudo' | 'python' | 'javascript' | 'dart' | 'java' | 'cpp';
 
 export interface ArrayElement {

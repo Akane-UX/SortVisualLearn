@@ -1,0 +1,435 @@
+import {
+  SearchAlgorithmId,
+  SearchAlgorithmMeta,
+  SearchQuizQuestion,
+} from '../types/searching';
+
+export const SEARCH_ALGORITHMS: Record<SearchAlgorithmId, SearchAlgorithmMeta> = {
+  linear: {
+    id: 'linear',
+    name: 'Linear Search',
+    shortName: 'Linear',
+    tagline: 'Periksa setiap elemen satu per satu dari ujung kiri sampai target ketemu.',
+    difficulty: 'Pemula',
+    requiresSorted: false,
+    accentColor: '#FF5A36',
+    analogyTitle: 'Mencari Kunci di Deretan Laci',
+    analogyDesc:
+      'Bayangkan kamu lupa menaruh kunci di salah satu dari 10 laci meja yang isinya acak. Satu-satunya cara pasti adalah membuka laci pertama, lalu kedua, lalu ketiga, sampai kuncinya ketemu!',
+    howItWorks: [
+      'Mulai dari indeks 0 (ujung paling kiri).',
+      'Bandingkan elemen saat ini dengan nilai target.',
+      'Jika sama, pencarian selesai dan kembalikan indeksnya.',
+      'Jika belum sama, geser ke indeks berikutnya sampai ujung array.',
+    ],
+    whenToUse:
+      'Saat data belum terurut, jumlah datanya kecil, atau kamu hanya mencari sesekali tanpa sempat mengurutkan data.',
+    pros: [
+      'Bekerja pada data acak maupun terurut.',
+      'Sangat sederhana dan tidak butuh memori tambahan.',
+    ],
+    cons: [
+      'Lambat untuk data besar (O(n)) karena harus mengecek hampir semua elemen di kasus terburuk.',
+    ],
+    complexity: {
+      best: 'O(1)',
+      average: 'O(n)',
+      worst: 'O(n)',
+      space: 'O(1)',
+    },
+    codeSnippets: {
+      pseudo: [
+        'for i = 0 to n - 1:',
+        '  if arr[i] == target:',
+        '    return i',
+        '  // lanjut ke elemen berikutnya',
+        'return -1 // tidak ditemukan',
+      ],
+      python: [
+        'for i in range(len(arr)):',
+        '  if arr[i] == target:',
+        '    return i',
+        '  # lanjut ke elemen berikutnya',
+        'return -1 # tidak ditemukan',
+      ],
+      javascript: [
+        'for (let i = 0; i < arr.length; i++) {',
+        '  if (arr[i] === target)',
+        '    return i;',
+        '} // lanjut ke elemen berikutnya',
+        'return -1; // tidak ditemukan',
+      ],
+      dart: [
+        'for (var i = 0; i < arr.length; i++) {',
+        '  if (arr[i] == target)',
+        '    return i;',
+        '} // lanjut ke elemen berikutnya',
+        'return -1; // tidak ditemukan',
+      ],
+      java: [
+        'for (int i = 0; i < arr.length; i++) {',
+        '  if (arr[i] == target)',
+        '    return i;',
+        '} // lanjut ke elemen berikutnya',
+        'return -1; // tidak ditemukan',
+      ],
+      cpp: [
+        'for (int i = 0; i < n; i++) {',
+        '  if (arr[i] == target)',
+        '    return i;',
+        '} // lanjut ke elemen berikutnya',
+        'return -1; // tidak ditemukan',
+      ],
+    },
+  },
+  binary: {
+    id: 'binary',
+    name: 'Binary Search',
+    shortName: 'Binary',
+    tagline: 'Selalu cek tepat di tengah, lalu buang setengah area yang tidak mungkin!',
+    difficulty: 'Pemula',
+    requiresSorted: true,
+    accentColor: '#2563EB',
+    analogyTitle: 'Tebak Angka 1–100',
+    analogyDesc:
+      'Jika temanmu memikirkan angka 1–100, tebakan paling cerdas pertama adalah 50. Jika dia bilang "terlalu kecil", kamu langsung membuang angka 1–50 dan menebak tengahnya lagi (75)!',
+    howItWorks: [
+      'Pastikan array sudah terurut dari kecil ke besar.',
+      'Tentukan batas kiri (low) dan kanan (high), lalu hitung indeks tengah (mid).',
+      'Jika arr[mid] == target, ketemu! Jika arr[mid] < target, buang sisi kiri (low = mid + 1).',
+      'Jika arr[mid] > target, buang sisi kanan (high = mid - 1). Ulangi hingga ketemu atau low > high.',
+    ],
+    whenToUse:
+      'Standar utama saat mencari di data yang sudah terurut—sangat cepat bahkan untuk jutaan data!',
+    pros: [
+      'Sangat cepat: O(log n). Untuk 1 juta data, maksimal hanya butuh ~20 kali cek!',
+      'Hemat memori: O(1) untuk versi iteratif.',
+    ],
+    cons: [
+      'Wajib menggunakan data yang sudah terurut.',
+      'Butuh akses indeks acak (kurang cocok untuk Linked List biasa).',
+    ],
+    complexity: {
+      best: 'O(1)',
+      average: 'O(log n)',
+      worst: 'O(log n)',
+      space: 'O(1)',
+    },
+    codeSnippets: {
+      pseudo: [
+        'low = 0, high = n - 1',
+        'while low <= high:',
+        '  mid = floor((low + high) / 2)',
+        '  if arr[mid] == target: return mid',
+        '  else if arr[mid] < target: low = mid + 1',
+        '  else: high = mid - 1',
+        'return -1',
+      ],
+      python: [
+        'low, high = 0, len(arr) - 1',
+        'while low <= high:',
+        '  mid = (low + high) // 2',
+        '  if arr[mid] == target: return mid',
+        '  elif arr[mid] < target: low = mid + 1',
+        '  else: high = mid - 1',
+        'return -1',
+      ],
+      javascript: [
+        'let low = 0, high = arr.length - 1;',
+        'while (low <= high) {',
+        '  const mid = Math.floor((low + high) / 2);',
+        '  if (arr[mid] === target) return mid;',
+        '  else if (arr[mid] < target) low = mid + 1;',
+        '  else high = mid - 1;',
+        '} return -1;',
+      ],
+      dart: [
+        'int low = 0, high = arr.length - 1;',
+        'while (low <= high) {',
+        '  int mid = (low + high) ~/ 2;',
+        '  if (arr[mid] == target) return mid;',
+        '  else if (arr[mid] < target) low = mid + 1;',
+        '  else high = mid - 1;',
+        '} return -1;',
+      ],
+      java: [
+        'int low = 0, high = arr.length - 1;',
+        'while (low <= high) {',
+        '  int mid = low + (high - low) / 2;',
+        '  if (arr[mid] == target) return mid;',
+        '  else if (arr[mid] < target) low = mid + 1;',
+        '  else high = mid - 1;',
+        '} return -1;',
+      ],
+      cpp: [
+        'int low = 0, high = n - 1;',
+        'while (low <= high) {',
+        '  int mid = low + (high - low) / 2;',
+        '  if (arr[mid] == target) return mid;',
+        '  else if (arr[mid] < target) low = mid + 1;',
+        '  else high = mid - 1;',
+        '} return -1;',
+      ],
+    },
+  },
+  jump: {
+    id: 'jump',
+    name: 'Jump Search',
+    shortName: 'Jump',
+    tagline: 'Lompat jauh per blok √n, lalu jalan satu-satu di blok yang tepat.',
+    difficulty: 'Menengah',
+    requiresSorted: true,
+    accentColor: '#8B5CF6',
+    analogyTitle: 'Melompati Rak Buku di Perpustakaan',
+    analogyDesc:
+      'Daripada mengecek judul buku satu per satu dari rak pertama, kamu melompat tiap 4 rak sekali. Begitu melewati abjad yang dicari, kamu mundur satu blok dan cek satu per satu di rak itu!',
+    howItWorks: [
+      'Hitung ukuran lompatan optimal: step = floor(√n).',
+      'Lompat maju dari indeks 0 per blok selama nilai di ujung blok masih < target.',
+      'Begitu nilai blok >= target (atau mentok akhir), berhenti di blok tersebut.',
+      'Lakukan Linear Search di dalam blok kecil tersebut untuk menemukan target.',
+    ],
+    whenToUse:
+      'Berguna pada sistem di mana melompat mundur mahal (seperti pita magnetik/stream) atau saat ingin alternatif sederhana di antara Linear dan Binary.',
+    pros: [
+      'Jauh lebih cepat daripada Linear Search: O(√n).',
+      'Hanya melompat maju sebelum satu kali pemindaian pendek.',
+    ],
+    cons: [
+      'Masih lebih lambat daripada Binary Search O(log n).',
+      'Wajib menggunakan data yang sudah terurut.',
+    ],
+    complexity: {
+      best: 'O(1)',
+      average: 'O(√n)',
+      worst: 'O(√n)',
+      space: 'O(1)',
+    },
+    codeSnippets: {
+      pseudo: [
+        'step = floor(sqrt(n)), prev = 0',
+        'while arr[min(step, n) - 1] < target:',
+        '  prev = step; step += floor(sqrt(n))',
+        '  if prev >= n: return -1',
+        'for i = prev to min(step, n) - 1:',
+        '  if arr[i] == target: return i',
+        'return -1',
+      ],
+      python: [
+        'step = int(math.sqrt(n)); prev = 0',
+        'while arr[min(step, n) - 1] < target:',
+        '  prev = step; step += int(math.sqrt(n))',
+        '  if prev >= n: return -1',
+        'for i in range(prev, min(step, n)):',
+        '  if arr[i] == target: return i',
+        'return -1',
+      ],
+      javascript: [
+        'let step = Math.floor(Math.sqrt(n)), prev = 0;',
+        'while (arr[Math.min(step, n) - 1] < target) {',
+        '  prev = step; step += Math.floor(Math.sqrt(n));',
+        '  if (prev >= n) return -1;',
+        '} for (let i = prev; i < Math.min(step, n); i++) {',
+        '  if (arr[i] === target) return i;',
+        '} return -1;',
+      ],
+      dart: [
+        'int step = sqrt(n).floor(), prev = 0;',
+        'while (arr[min(step, n) - 1] < target) {',
+        '  prev = step; step += sqrt(n).floor();',
+        '  if (prev >= n) return -1;',
+        '} for (var i = prev; i < min(step, n); i++) {',
+        '  if (arr[i] == target) return i;',
+        '} return -1;',
+      ],
+      java: [
+        'int step = (int) Math.floor(Math.sqrt(n)), prev = 0;',
+        'while (arr[Math.min(step, n) - 1] < target) {',
+        '  prev = step; step += (int) Math.floor(Math.sqrt(n));',
+        '  if (prev >= n) return -1;',
+        '} for (int i = prev; i < Math.min(step, n); i++) {',
+        '  if (arr[i] == target) return i;',
+        '} return -1;',
+      ],
+      cpp: [
+        'int step = floor(sqrt(n)), prev = 0;',
+        'while (arr[min(step, n) - 1] < target) {',
+        '  prev = step; step += floor(sqrt(n));',
+        '  if (prev >= n) return -1;',
+        '} for (int i = prev; i < min(step, n); i++) {',
+        '  if (arr[i] == target) return i;',
+        '} return -1;',
+      ],
+    },
+  },
+  interpolation: {
+    id: 'interpolation',
+    name: 'Interpolation Search',
+    shortName: 'Interpolation',
+    tagline: 'Menebak posisi berdasarkan proporsi nilai—seperti membuka kamus!',
+    difficulty: 'Menengah',
+    requiresSorted: true,
+    accentColor: '#10B981',
+    analogyTitle: 'Membuka Kamus Bahasa',
+    analogyDesc:
+      'Jika kamu mencari kata berawalan huruf "Z" di kamus, kamu tidak membukanya dari halaman tengah, melainkan langsung membuka bagian paling belakang. Interpolation Search menghitung perkiraan posisi dengan rumus proporsi nilai!',
+    howItWorks: [
+      'Pastikan array terurut dan target berada di antara arr[low] dan arr[high].',
+      'Hitung perkiraan posisi pos menggunakan rumus interpolasi linier.',
+      'Jika arr[pos] == target, langsung ketemu!',
+      'Jika arr[pos] < target, geser low = pos + 1; jika lebih besar, geser high = pos - 1.',
+    ],
+    whenToUse:
+      'Sangat luar biasa cepat (O(log log n)) pada data terurut yang jarak antar angkanya tersebar cukup merata.',
+    pros: [
+      'Bisa lebih cepat dari Binary Search pada data terurut yang seragam: O(log log n).',
+      'Hemat memori O(1).',
+    ],
+    cons: [
+      'Jika distribusi data sangat timpang/eksponensial, kecepatannya bisa turun menjadi O(n).',
+      'Wajib data terurut.',
+    ],
+    complexity: {
+      best: 'O(1)',
+      average: 'O(log log n)',
+      worst: 'O(n)',
+      space: 'O(1)',
+    },
+    codeSnippets: {
+      pseudo: [
+        'while low <= high and target in [arr[low]..arr[high]]:',
+        '  pos = low + ((target - arr[low]) * (high - low))',
+        '        / (arr[high] - arr[low])',
+        '  if arr[pos] == target: return pos',
+        '  if arr[pos] < target: low = pos + 1',
+        '  else: high = pos - 1',
+        'return -1',
+      ],
+      python: [
+        'while low <= high and arr[low] <= target <= arr[high]:',
+        '  pos = low + ((target - arr[low]) * (high - low))',
+        '        // (arr[high] - arr[low])',
+        '  if arr[pos] == target: return pos',
+        '  if arr[pos] < target: low = pos + 1',
+        '  else: high = pos - 1',
+        'return -1',
+      ],
+      javascript: [
+        'while (low <= high && target >= arr[low] && target <= arr[high]) {',
+        '  const pos = low + Math.floor(((target - arr[low]) * (high - low))',
+        '    / (arr[high] - arr[low]));',
+        '  if (arr[pos] === target) return pos;',
+        '  if (arr[pos] < target) low = pos + 1;',
+        '  else high = pos - 1;',
+        '} return -1;',
+      ],
+      dart: [
+        'while (low <= high && target >= arr[low] && target <= arr[high]) {',
+        '  int pos = low + (((target - arr[low]) * (high - low))',
+        '    ~/ (arr[high] - arr[low]));',
+        '  if (arr[pos] == target) return pos;',
+        '  if (arr[pos] < target) low = pos + 1;',
+        '  else high = pos - 1;',
+        '} return -1;',
+      ],
+      java: [
+        'while (low <= high && target >= arr[low] && target <= arr[high]) {',
+        '  int pos = low + (((target - arr[low]) * (high - low))',
+        '    / (arr[high] - arr[low]));',
+        '  if (arr[pos] == target) return pos;',
+        '  if (arr[pos] < target) low = pos + 1;',
+        '  else high = pos - 1;',
+        '} return -1;',
+      ],
+      cpp: [
+        'while (low <= high && target >= arr[low] && target <= arr[high]) {',
+        '  int pos = low + (((double)(high - low) /',
+        '    (arr[high] - arr[low])) * (target - arr[low]));',
+        '  if (arr[pos] == target) return pos;',
+        '  if (arr[pos] < target) low = pos + 1;',
+        '  else high = pos - 1;',
+        '} return -1;',
+      ],
+    },
+  },
+};
+
+export const SEARCH_ALGORITHM_ORDER: SearchAlgorithmId[] = [
+  'linear',
+  'binary',
+  'jump',
+  'interpolation',
+];
+
+export const SEARCH_QUIZ_QUESTIONS: SearchQuizQuestion[] = [
+  {
+    id: 'sq1',
+    algorithmId: 'binary',
+    question:
+      'Syarat mutlak agar Binary Search dapat bekerja dengan benar adalah...',
+    options: [
+      'Semua angka harus genap.',
+      'Data di dalam array harus sudah terurut.',
+      'Jumlah elemen harus kelipatan 10.',
+      'Target harus berada di indeks tengah.',
+    ],
+    correctIndex: 1,
+    explanation:
+      'Benar! Binary Search membuang setengah area pencarian dengan asumsi elemen di kiri lebih kecil dan di kanan lebih besar, sehingga data wajib terurut.',
+  },
+  {
+    id: 'sq2',
+    algorithmId: 'linear',
+    question:
+      'Jika kamu punya 1.000 data yang masih ACAK dan hanya perlu mencari satu nilai sekali saja, algoritma mana yang paling tepat?',
+    options: [
+      'Linear Search',
+      'Binary Search langsung tanpa mengurutkan',
+      'Jump Search',
+      'Interpolation Search',
+    ],
+    correctIndex: 0,
+    explanation:
+      'Linear Search adalah satu-satunya yang bekerja akurat pada data acak tanpa perlu mengurutkannya terlebih dahulu.',
+  },
+  {
+    id: 'sq3',
+    algorithmId: 'binary',
+    question:
+      'Kira-kira berapa maksimal langkah pengecekan yang dibutuhkan Binary Search untuk mencari di 1.000.000 data terurut?',
+    options: [
+      'Sekitar 500.000 langkah',
+      'Sekitar 1.000 langkah',
+      'Sekitar 20 langkah',
+      '1 langkah saja',
+    ],
+    correctIndex: 2,
+    explanation:
+      'Karena setiap langkah membuang setengah data (2^20 ≈ 1.048.576), Binary Search maksimal hanya butuh sekitar 20 kali cek untuk 1 juta data!',
+  },
+  {
+    id: 'sq4',
+    algorithmId: 'jump',
+    question:
+      'Berapa ukuran lompatan (step) yang optimal pada Jump Search untuk array berukuran n?',
+    options: ['n / 2', '√n (akar kuadrat dari n)', '2 langkah tetap', 'n - 1'],
+    correctIndex: 1,
+    explanation:
+      'Ukuran lompatan √n menyeimbangkan jumlah lompatan blok dan jumlah pengecekan linear di dalam blok, menghasilkan kompleksitas O(√n).',
+  },
+  {
+    id: 'sq5',
+    algorithmId: 'interpolation',
+    question:
+      'Kapan Interpolation Search bisa mengungguli kecepatan Binary Search?',
+    options: [
+      'Saat data terurut dan nilainya tersebar merata (uniform).',
+      'Saat data masih acak total.',
+      'Saat array hanya berisi 2 elemen.',
+      'Saat semua elemen bernilai sama.',
+    ],
+    correctIndex: 0,
+    explanation:
+      'Pada data terurut dengan distribusi seragam, rumus proporsi Interpolation Search langsung menebak sangat dekat ke posisi target dengan kompleksitas O(log log n).',
+  },
+];
