@@ -10,16 +10,16 @@ Seluruh materi, narasi langkah, dan antarmuka ditulis dalam bahasa Indonesia yan
 
 Di bagian header tersedia tombol switcher terpisah untuk berpindah antara topik **Sorting** dan **Searching**, masing-masing memiliki tiga mode: **Visualisasi & Materi**, **Duel Algoritma**, dan **Kuis Interaktif**.
 
-### 1. Sorting (6 Algoritma)
-Mencakup **Bubble Sort**, **Selection Sort**, **Insertion Sort**, **Merge Sort**, **Quick Sort**, dan **Heap Sort**.
+### 1. Sorting (7 Algoritma)
+Mencakup **Bubble Sort**, **Selection Sort**, **Insertion Sort**, **Shell Sort**, **Merge Sort**, **Quick Sort**, dan **Heap Sort**.
 - **Animasi pertukaran fisik (GSAP FLIP)**: Bar benar-benar meluncur bertukar tempat setelah dibandingkan, bukan berubah tinggi di tempat.
-- **Batas visual Divide & Merge di Merge Sort**: Rentang kiri dan kanan dibatasi kotak warna berbeda dengan garis pemisah saat dipecah, lalu menyatu saat digabungkan kembali.
+- **Visualisasi lompatan jarak (Gap) di Shell Sort & Divide/Merge di Merge Sort**: Pada Shell Sort terlihat pasangan elemen berjarak `gap` yang dibandingkan dan meluncur bertukar tempat; pada Merge Sort rentang kiri dan kanan dibatasi kotak warna berbeda dengan garis pemisah saat dipecah, lalu menyatu saat digabungkan kembali.
 - **Data fleksibel**: Bisa pakai preset (*Acak*, *Hampir Urut*, *Terbalik*, *Banyak Kembar*), atur jumlah data (6–22), atau masukkan angka sendiri (4–24 angka antara 5–100).
 
-### 2. Searching (4 Algoritma)
-Mencakup **Linear Search**, **Binary Search**, **Jump Search**, dan **Interpolation Search**.
+### 2. Searching (6 Algoritma)
+Mencakup **Linear Search**, **Binary Search**, **Jump Search**, **Interpolation Search**, **Exponential Search**, dan **Ternary Search**.
 - **Kartu indeks interaktif**: Klik angka mana saja langsung di panggung untuk menjadikannya target pencarian, atau gunakan input target serta tombol cepat *Target Ada* / *Target Tidak Ada*.
-- **Visualisasi pemangkasan area**: Elemen yang sudah tidak mungkin mengandung target otomatis meredup agar cara kerja *Binary*, *Jump*, dan *Interpolation Search* mudah dipahami.
+- **Visualisasi pemangkasan area**: Elemen yang sudah tidak mungkin mengandung target otomatis meredup agar cara kerja *Binary*, *Jump*, *Interpolation*, *Exponential* (pelipatgandaan `bound` 1, 2, 4, 8...), dan *Ternary Search* (pembagian 3 wilayah dengan `mid1` & `mid2`) mudah dipahami.
 - **Pengaturan data**: Atur jumlah data (6–20) dan ubah antara data acak atau terurut pada Linear Search.
 
 ---
@@ -86,8 +86,8 @@ npm run preview
 ```text
 src/
 ├── algorithms/
-│   ├── generators.ts            # Generator langkah untuk 6 algoritma sorting
-│   └── searchGenerators.ts      # Generator langkah untuk 4 algoritma searching
+│   ├── generators.ts            # Generator langkah untuk 7 algoritma sorting
+│   └── searchGenerators.ts      # Generator langkah untuk 6 algoritma searching
 ├── components/
 │   ├── AlgorithmSelector.tsx    # Pemilih algoritma sorting
 │   ├── ControlBar.tsx           # Kontrol playback, kecepatan, jumlah data, & input kustom (sort)

@@ -2,6 +2,7 @@ export type AlgorithmId =
   | 'bubble'
   | 'selection'
   | 'insertion'
+  | 'shell'
   | 'merge'
   | 'quick'
   | 'heap';

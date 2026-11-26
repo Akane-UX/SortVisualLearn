@@ -44,6 +44,8 @@ export function generateSortSteps(algo: AlgorithmId, initial: ArrayElement[]): S
       return selectionSteps(initial);
     case 'insertion':
       return insertionSteps(initial);
+    case 'shell':
+      return shellSteps(initial);
     case 'merge':
       return mergeSteps(initial);
     case 'quick':
@@ -756,6 +758,94 @@ function heapSteps(initial: ArrayElement[]): SortStep[] {
     sorted: allSorted,
     pointers: {},
     narration: 'Selesai! Seluruh turnamen Max-Heap selesai dan array terurut sempurna.',
+    codeLine: 7,
+    comparisons,
+    swaps,
+    isDone: true,
+  });
+  return steps;
+}
+
+function shellSteps(initial: ArrayElement[]): SortStep[] {
+  const arr = cloneArr(initial);
+  const n = arr.length;
+  const steps: SortStep[] = [];
+  let comparisons = 0;
+  let swaps = 0;
+
+  steps.push({
+    array: cloneArr(arr),
+    comparing: [],
+    swapping: [],
+    sorted: [],
+    pointers: {},
+    narration: 'Siap memulai Shell Sort! Kita akan mengurutkan elemen yang terpisah jarak (gap) besar, lalu memperkecil gap hingga 1.',
+    codeLine: 1,
+    comparisons,
+    swaps,
+  });
+
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+    steps.push({
+      array: cloneArr(arr),
+      comparing: [],
+      swapping: [],
+      sorted: [],
+      pointers: { gap },
+      narration: `Memulai putaran baru dengan jarak lompatan gap = ${gap}.`,
+      codeLine: 2,
+      comparisons,
+      swaps,
+    });
+
+    for (let i = gap; i < n; i++) {
+      let j = i;
+      while (j >= gap) {
+        comparisons++;
+        steps.push({
+          array: cloneArr(arr),
+          comparing: [j - gap, j],
+          swapping: [],
+          sorted: [],
+          pivot: j,
+          pointers: { [`j-${gap}`]: j - gap, j },
+          narration: `Gap ${gap}: Bandingkan ${arr[j - gap].value} (indeks ${j - gap}) dengan ${arr[j].value} (indeks ${j}).`,
+          codeLine: 5,
+          comparisons,
+          swaps,
+        });
+
+        if (arr[j - gap].value > arr[j].value) {
+          [arr[j - gap], arr[j]] = [arr[j], arr[j - gap]];
+          swaps++;
+          steps.push({
+            array: cloneArr(arr),
+            comparing: [],
+            swapping: [j - gap, j],
+            sorted: [],
+            pivot: j - gap,
+            pointers: { [`j-${gap}`]: j - gap, j },
+            narration: `${arr[j].value} > ${arr[j - gap].value}, tukar posisi melompati jarak gap = ${gap}!`,
+            codeLine: 6,
+            comparisons,
+            swaps,
+          });
+          j -= gap;
+        } else {
+          break;
+        }
+      }
+    }
+  }
+
+  const allSorted = Array.from({ length: n }, (_, idx) => idx);
+  steps.push({
+    array: cloneArr(arr),
+    comparing: [],
+    swapping: [],
+    sorted: allSorted,
+    pointers: {},
+    narration: 'Selesai! Setelah gap mencapai 1, seluruh elemen telah terurut sempurna.',
     codeLine: 7,
     comparisons,
     swaps,

@@ -352,6 +352,186 @@ export const SEARCH_ALGORITHMS: Record<SearchAlgorithmId, SearchAlgorithmMeta> =
       ],
     },
   },
+  exponential: {
+    id: 'exponential',
+    name: 'Exponential Search',
+    shortName: 'Exponential',
+    tagline: 'Gandakan jangkauan lompatan (1, 2, 4, 8...) lalu Binary Search di rentang terakhir!',
+    difficulty: 'Menengah',
+    requiresSorted: true,
+    accentColor: '#F59E0B',
+    analogyTitle: 'MemperbesarTeleskop Dua Kali Lipat',
+    analogyDesc:
+      'Bayangkan mencari rumah nomor tertentu di jalan yang sangat panjang. Kamu cek nomor di jarak 1, lalu 2, lalu 4, lalu 8, lalu 16. Begitu melewati nomor yang dicari (misal di 16), kamu tahu rumahnya pasti di antara 8 dan 16—tinggal lakukan Binary Search di rentang sempit itu!',
+    howItWorks: [
+      'Cek indeks 0 terlebih dahulu; jika cocok langsung selesai.',
+      'Mulai dari batas bound = 1, gandakan bound = bound * 2 selama arr[bound] < target.',
+      'Setelah menemukan rentang [bound/2 .. min(bound, n-1)], buang semua elemen di luar rentang itu.',
+      'Jalankan Binary Search di dalam rentang sempit tersebut.',
+    ],
+    whenToUse:
+      'Sangat efektif untuk array terurut berukuran sangat besar (atau unbounded/infinite stream) dan saat target berada dekat dengan awal array.',
+    pros: [
+      'Sangat cepat O(log i) di mana i adalah posisi target—luar biasa jika target dekat ujung kiri!',
+      'Tidak perlu memeriksa seluruh panjang array di awal.',
+    ],
+    cons: [
+      'Wajib data terurut.',
+      'Sedikit lebih banyak langkah daripada Binary Search biasa jika target berada di ujung paling kanan.',
+    ],
+    complexity: {
+      best: 'O(1)',
+      average: 'O(log n)',
+      worst: 'O(log n)',
+      space: 'O(1)',
+    },
+    codeSnippets: {
+      pseudo: [
+        'if arr[0] == target: return 0',
+        'bound = 1',
+        'while bound < n and arr[bound] < target:',
+        '  bound = bound * 2',
+        'low = floor(bound / 2), high = min(bound, n - 1)',
+        'return binarySearch(arr, target, low, high)',
+        '// cari dengan binary search di [low..high]',
+      ],
+      python: [
+        'if arr[0] == target: return 0',
+        'bound = 1',
+        'while bound < n and arr[bound] < target:',
+        '  bound *= 2',
+        'low, high = bound // 2, min(bound, n - 1)',
+        'return binary_search(arr, target, low, high)',
+        '# cari dengan binary search di [low..high]',
+      ],
+      javascript: [
+        'if (arr[0] === target) return 0;',
+        'let bound = 1;',
+        'while (bound < n && arr[bound] < target)',
+        '  bound *= 2;',
+        'let low = Math.floor(bound / 2), high = Math.min(bound, n - 1);',
+        'return binarySearch(arr, target, low, high);',
+        '// cari dengan binary search di [low..high]',
+      ],
+      dart: [
+        'if (arr[0] == target) return 0;',
+        'int bound = 1;',
+        'while (bound < n && arr[bound] < target)',
+        '  bound *= 2;',
+        'int low = bound ~/ 2, high = min(bound, n - 1);',
+        'return binarySearch(arr, target, low, high);',
+        '// cari dengan binary search di [low..high]',
+      ],
+      java: [
+        'if (arr[0] == target) return 0;',
+        'int bound = 1;',
+        'while (bound < n && arr[bound] < target)',
+        '  bound *= 2;',
+        'int low = bound / 2, high = Math.min(bound, n - 1);',
+        'return binarySearch(arr, target, low, high);',
+        '// cari dengan binary search di [low..high]',
+      ],
+      cpp: [
+        'if (arr[0] == target) return 0;',
+        'int bound = 1;',
+        'while (bound < n && arr[bound] < target)',
+        '  bound *= 2;',
+        'int low = bound / 2, high = min(bound, n - 1);',
+        'return binarySearch(arr, target, low, high);',
+        '// cari dengan binary search di [low..high]',
+      ],
+    },
+  },
+  ternary: {
+    id: 'ternary',
+    name: 'Ternary Search',
+    shortName: 'Ternary',
+    tagline: 'Bagi area pencarian menjadi TIGA bagian dengan dua titik tengah (mid1 & mid2)!',
+    difficulty: 'Menengah',
+    requiresSorted: true,
+    accentColor: '#EC4899',
+    analogyTitle: 'Membagi Jalan Menjadi Tiga Sektor',
+    analogyDesc:
+      'Jika Binary Search membelah area menjadi 2 dengan satu titik tengah, Ternary Search memasang DUA pos pemeriksaan (mid1 di 1/3 jalan dan mid2 di 2/3 jalan). Sekali periksa, kita bisa langsung membuang 2/3 area yang salah dan fokus ke 1/3 sisanya!',
+    howItWorks: [
+      'Hitung dua titik pembagi: mid1 = low + (high-low)/3 dan mid2 = high - (high-low)/3.',
+      'Cek apakah target sama dengan arr[mid1] atau arr[mid2].',
+      'Jika target < arr[mid1], fokus ke sepertiga kiri [low .. mid1-1].',
+      'Jika target > arr[mid2], fokus ke sepertiga kanan [mid2+1 .. high]; selain itu fokus ke sepertiga tengah [mid1+1 .. mid2-1].',
+    ],
+    whenToUse:
+      'Digunakan untuk memahami generalisasi Divide & Conquer (membagi 3) dan sangat terkenal untuk mencari nilai maksimum/minimum pada fungsi unimodal.',
+    pros: [
+      'Memangkas 2/3 ruang pencarian sekaligus di setiap putaran: O(log₃ n).',
+      'Sangat intuitif untuk mempelajari partisi multi-titik.',
+    ],
+    cons: [
+      'Melakukan hingga 2 perbandingan per putaran, sehingga pada array biasa total perbandingannya sedikit lebih banyak dibanding Binary Search.',
+      'Wajib data terurut.',
+    ],
+    complexity: {
+      best: 'O(1)',
+      average: 'O(log₃ n)',
+      worst: 'O(log₃ n)',
+      space: 'O(1)',
+    },
+    codeSnippets: {
+      pseudo: [
+        'while low <= high:',
+        '  mid1 = low + (high - low) / 3',
+        '  mid2 = high - (high - low) / 3',
+        '  if arr[mid1] == target: return mid1',
+        '  if arr[mid2] == target: return mid2',
+        '  if target < arr[mid1]: high = mid1 - 1',
+        '  else if target > arr[mid2]: low = mid2 + 1 else: low=mid1+1, high=mid2-1',
+      ],
+      python: [
+        'while low <= high:',
+        '  mid1 = low + (high - low) // 3',
+        '  mid2 = high - (high - low) // 3',
+        '  if arr[mid1] == target: return mid1',
+        '  if arr[mid2] == target: return mid2',
+        '  if target < arr[mid1]: high = mid1 - 1',
+        '  elif target > arr[mid2]: low = mid2 + 1 else: low, high = mid1+1, mid2-1',
+      ],
+      javascript: [
+        'while (low <= high) {',
+        '  const mid1 = low + Math.floor((high - low) / 3);',
+        '  const mid2 = high - Math.floor((high - low) / 3);',
+        '  if (arr[mid1] === target) return mid1;',
+        '  if (arr[mid2] === target) return mid2;',
+        '  if (target < arr[mid1]) high = mid1 - 1;',
+        '  else if (target > arr[mid2]) low = mid2 + 1; else { low = mid1+1; high = mid2-1; } }',
+      ],
+      dart: [
+        'while (low <= high) {',
+        '  int mid1 = low + (high - low) ~/ 3;',
+        '  int mid2 = high - (high - low) ~/ 3;',
+        '  if (arr[mid1] == target) return mid1;',
+        '  if (arr[mid2] == target) return mid2;',
+        '  if (target < arr[mid1]) high = mid1 - 1;',
+        '  else if (target > arr[mid2]) low = mid2 + 1; else { low = mid1+1; high = mid2-1; } }',
+      ],
+      java: [
+        'while (low <= high) {',
+        '  int mid1 = low + (high - low) / 3;',
+        '  int mid2 = high - (high - low) / 3;',
+        '  if (arr[mid1] == target) return mid1;',
+        '  if (arr[mid2] == target) return mid2;',
+        '  if (target < arr[mid1]) high = mid1 - 1;',
+        '  else if (target > arr[mid2]) low = mid2 + 1; else { low = mid1+1; high = mid2-1; } }',
+      ],
+      cpp: [
+        'while (low <= high) {',
+        '  int mid1 = low + (high - low) / 3;',
+        '  int mid2 = high - (high - low) / 3;',
+        '  if (arr[mid1] == target) return mid1;',
+        '  if (arr[mid2] == target) return mid2;',
+        '  if (target < arr[mid1]) high = mid1 - 1;',
+        '  else if (target > arr[mid2]) low = mid2 + 1; else { low = mid1+1; high = mid2-1; } }',
+      ],
+    },
+  },
 };
 
 export const SEARCH_ALGORITHM_ORDER: SearchAlgorithmId[] = [
@@ -359,6 +539,8 @@ export const SEARCH_ALGORITHM_ORDER: SearchAlgorithmId[] = [
   'binary',
   'jump',
   'interpolation',
+  'exponential',
+  'ternary',
 ];
 
 export const SEARCH_QUIZ_QUESTIONS: SearchQuizQuestion[] = [
@@ -431,5 +613,35 @@ export const SEARCH_QUIZ_QUESTIONS: SearchQuizQuestion[] = [
     correctIndex: 0,
     explanation:
       'Pada data terurut dengan distribusi seragam, rumus proporsi Interpolation Search langsung menebak sangat dekat ke posisi target dengan kompleksitas O(log log n).',
+  },
+  {
+    id: 'sq6',
+    algorithmId: 'exponential',
+    question:
+      'Bagaimana cara Exponential Search menemukan rentang tempat target berada sebelum menjalankan Binary Search?',
+    options: [
+      'Menggandakan batas indeks (1, 2, 4, 8, 16...) hingga nilai elemen melewati atau sama dengan target.',
+      'Membagi array menjadi 10 bagian sama rata.',
+      'Melompat mundur dari ujung paling kanan.',
+      'Mengacak indeks pencarian.',
+    ],
+    correctIndex: 0,
+    explanation:
+      'Exponential Search melipatgandakan indeks bound *= 2 secara eksponensial, lalu melakukan Binary Search di rentang [bound/2 .. min(bound, n-1)].',
+  },
+  {
+    id: 'sq7',
+    algorithmId: 'ternary',
+    question:
+      'Berapa bagian ruang pencarian yang langsung dibuang pada setiap putaran Ternary Search jika target belum ditemukan di mid1 maupun mid2?',
+    options: [
+      '1/4 bagian',
+      '1/2 bagian',
+      '2/3 bagian (menyisakan 1/3 bagian aktif)',
+      'Seluruh array',
+    ],
+    correctIndex: 2,
+    explanation:
+      'Karena Ternary Search membagi rentang menjadi 3 bagian menggunakan mid1 dan mid2, dua dari tiga bagian langsung dieliminasi setiap putaran.',
   },
 ];

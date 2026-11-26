@@ -1,6 +1,12 @@
 import { CodeLanguage } from './sorting';
 
-export type SearchAlgorithmId = 'linear' | 'binary' | 'jump' | 'interpolation';
+export type SearchAlgorithmId =
+  | 'linear'
+  | 'binary'
+  | 'jump'
+  | 'interpolation'
+  | 'exponential'
+  | 'ternary';
 
 export interface SearchStep {
   array: number[];

@@ -542,12 +542,103 @@ export const ALGORITHMS: Record<AlgorithmId, AlgorithmMeta> = {
       ],
     },
   },
+  shell: {
+    id: 'shell',
+    name: 'Shell Sort',
+    shortName: 'Shell',
+    tagline: 'Insertion Sort versi lompat jauh (gap) yang makin lama makin rapat.',
+    difficulty: 'Menengah',
+    accentColor: '#06B6D4',
+    analogyTitle: 'Merapikan Barisan dengan Lompatan Jarak (Gap)',
+    analogyDesc:
+      'Di Insertion Sort biasa, angka kecil di ujung kanan harus bergeser satu-satu ke kiri. Di Shell Sort, kita membandingkan dan menukar elemen yang berjarak jauh (gap) terlebih dahulu agar angka cepat mendekati posisi akhirnya, lalu memperkecil gap hingga menjadi 1!',
+    howItWorks: [
+      'Mulai dengan jarak lompatan besar: gap = floor(n / 2).',
+      'Lakukan pengurutan mirip Insertion Sort untuk elemen-elemen yang terpaut jarak gap.',
+      'Perkecil jarak lompatan menjadi setengahnya: gap = floor(gap / 2).',
+      'Saat gap mencapai 1, array sudah hampir rapi sehingga tahap akhir berjalan sangat cepat!',
+    ],
+    whenToUse:
+      'Sangat cocok untuk data ukuran menengah atau sistem embedded karena kode ringkas, tidak memakai stack rekursi, dan jauh lebih cepat dari Insertion Sort biasa.',
+    pros: [
+      'Jauh lebih cepat daripada Bubble/Insertion/Selection Sort pada data menengah.',
+      'In-place (memori O(1)) dan tidak membutuhkan rekursi.',
+    ],
+    cons: [
+      'Tidak stabil karena pertukaran jarak jauh (gap) bisa mengubah urutan elemen kembar.',
+      'Kompleksitas waktu bergantung pada urutan gap yang dipilih.',
+    ],
+    complexity: {
+      best: 'O(n log n)',
+      average: 'O(n^1.5)',
+      worst: 'O(n²)',
+      space: 'O(1)',
+    },
+    stable: false,
+    codeSnippets: {
+      pseudo: [
+        'gap = floor(n / 2)',
+        'while gap > 0:',
+        '  for i = gap to n - 1:',
+        '    j = i',
+        '    while j >= gap and arr[j - gap] > arr[j]:',
+        '      swap(arr[j - gap], arr[j]); j -= gap',
+        '  gap = floor(gap / 2)',
+      ],
+      python: [
+        'gap = n // 2',
+        'while gap > 0:',
+        '  for i in range(gap, n):',
+        '    j = i',
+        '    while j >= gap and arr[j - gap] > arr[j]:',
+        '      arr[j-gap], arr[j] = arr[j], arr[j-gap]; j -= gap',
+        '  gap //= 2',
+      ],
+      javascript: [
+        'for (let gap = Math.floor(n/2); gap > 0; ) {',
+        '  // urutkan sub-barisan berjarak gap',
+        '  for (let i = gap; i < n; i++) {',
+        '    let j = i;',
+        '    while (j >= gap && arr[j - gap] > arr[j]) {',
+        '      [arr[j-gap], arr[j]] = [arr[j], arr[j-gap]]; j -= gap;',
+        '  } } gap = Math.floor(gap / 2); }',
+      ],
+      dart: [
+        'for (var gap = n ~/ 2; gap > 0; ) {',
+        '  // urutkan sub-barisan berjarak gap',
+        '  for (var i = gap; i < n; i++) {',
+        '    var j = i;',
+        '    while (j >= gap && arr[j - gap] > arr[j]) {',
+        '      var t = arr[j-gap]; arr[j-gap] = arr[j]; arr[j] = t; j -= gap;',
+        '  } } gap ~/= 2; }',
+      ],
+      java: [
+        'for (int gap = n / 2; gap > 0; ) {',
+        '  // urutkan sub-barisan berjarak gap',
+        '  for (int i = gap; i < n; i++) {',
+        '    int j = i;',
+        '    while (j >= gap && arr[j - gap] > arr[j]) {',
+        '      int t = arr[j-gap]; arr[j-gap] = arr[j]; arr[j] = t; j -= gap;',
+        '  } } gap /= 2; }',
+      ],
+      cpp: [
+        'for (int gap = n / 2; gap > 0; ) {',
+        '  // urutkan sub-barisan berjarak gap',
+        '  for (int i = gap; i < n; i++) {',
+        '    int j = i;',
+        '    while (j >= gap && arr[j - gap] > arr[j]) {',
+        '      swap(arr[j - gap], arr[j]); j -= gap;',
+        '  } } gap /= 2; }',
+      ],
+    },
+  },
 };
 
 export const ALGORITHM_ORDER: AlgorithmId[] = [
   'bubble',
   'selection',
   'insertion',
+  'shell',
   'merge',
   'quick',
   'heap',
@@ -633,5 +724,20 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     correctIndex: 2,
     explanation:
       'Dalam Max-Heap, setiap parent selalu lebih besar atau sama dengan anak-anaknya, sehingga nilai maksimum selalu berada di root (indeks 0).',
+  },
+  {
+    id: 'q7',
+    algorithmId: 'shell',
+    question:
+      'Apa keunggulan utama penggunaan jarak lompatan (gap) pada Shell Sort dibanding Insertion Sort biasa?',
+    options: [
+      'Elemen dapat melompat jauh mendekati posisi akhirnya lebih cepat sebelum gap mengecil menjadi 1.',
+      'Membuat algoritma tidak pernah membandingkan elemen.',
+      'Mengubah kompleksitas memori menjadi O(n²).',
+      'Hanya mengurutkan elemen di indeks genap saja.',
+    ],
+    correctIndex: 0,
+    explanation:
+      'Dengan membandingkan elemen berjarak gap besar lebih dulu, elemen kecil di ujung kanan bisa berpindah cepat ke kiri tanpa harus bergeser satu per satu.',
   },
 ];
