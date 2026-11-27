@@ -103,6 +103,25 @@ input[type="range"].studio-slider:hover::-webkit-slider-thumb {
   transform: scale(1.15);
 }
 
+/* Subtle custom scrollbar for bento tiles */
+.bento-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.bento-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bento-scroll::-webkit-scrollbar-thumb {
+  background: rgba(125, 123, 117, 0.28);
+  border-radius: 9999px;
+}
+
+.bento-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(125, 123, 117, 0.45);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tactile-btn {
     transition: none;

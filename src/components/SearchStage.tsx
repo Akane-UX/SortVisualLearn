@@ -60,35 +60,35 @@ export const SearchStage: React.FC<SearchStageProps> = ({
   return (
     <div
       ref={containerRef}
-      className="rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] shadow-xs overflow-hidden"
+      className="h-full flex flex-col rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] shadow-xs overflow-hidden"
     >
       {/* Header */}
-      <div className="px-4 sm:px-5 py-3 border-b border-[#EFECE6] dark:border-[#2A2A26] bg-[#FAF9F6] dark:bg-[#151513] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-2.5">
+      <div className="shrink-0 px-3.5 sm:px-4 py-2.5 border-b border-[#EFECE6] dark:border-[#2A2A26] bg-[#FAF9F6] dark:bg-[#151513] flex flex-wrap items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {title && (
-            <span className="font-display font-bold text-sm text-[#141413] dark:text-[#F4F4F0]">
+            <span className="font-display font-bold text-xs sm:text-sm text-[#141413] dark:text-[#F4F4F0]">
               {title}
             </span>
           )}
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#2563EB]/10 dark:bg-[#2563EB]/20 border border-[#2563EB]/30 text-[#1D4ED8] dark:text-[#60A5FA] text-xs font-mono font-bold tabular-nums">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#2563EB]/10 dark:bg-[#2563EB]/20 border border-[#2563EB]/30 text-[#1D4ED8] dark:text-[#60A5FA] text-xs font-mono font-bold tabular-nums">
             <Crosshair className="w-3.5 h-3.5" />
             Target: {step.target}
           </span>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] text-xs font-medium tabular-nums">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] text-xs font-medium tabular-nums">
             <Search className="w-3.5 h-3.5 text-[#FF5A36]" />
             Cek: <strong>{step.checks}x</strong>
           </span>
         </div>
 
         {!compact && (
-          <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium text-[#575651] dark:text-[#A6A49C]">
-            <span className="inline-flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-2.5 text-[11px] font-medium text-[#575651] dark:text-[#A6A49C]">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#FF5A36]" /> Diperiksa
             </span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#10B981]" /> Ketemu
             </span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#D4D2CA] dark:bg-[#3A3A35]" /> Dibuang
             </span>
           </div>
@@ -97,7 +97,7 @@ export const SearchStage: React.FC<SearchStageProps> = ({
 
       {/* Live Narration */}
       <div
-        className={`px-4 sm:px-5 py-2.5 border-b border-[#EFECE6] dark:border-[#2A2A26] flex items-center gap-2.5 text-xs sm:text-sm ${
+        className={`shrink-0 px-3.5 sm:px-4 py-2 border-b border-[#EFECE6] dark:border-[#2A2A26] flex items-center gap-2 text-xs sm:text-[13px] ${
           step.foundIndex !== null
             ? 'bg-[#10B981]/10 dark:bg-[#10B981]/15 text-[#065F46] dark:text-[#6EE7B7]'
             : isNotFound
@@ -112,17 +112,17 @@ export const SearchStage: React.FC<SearchStageProps> = ({
         ) : (
           <Sparkles className="w-4 h-4 text-[#FF5A36] shrink-0" />
         )}
-        <p className="font-medium leading-snug">{step.narration}</p>
+        <p className="font-medium leading-snug line-clamp-2">{step.narration}</p>
       </div>
 
       {/* Interactive Array Cards Arena */}
       <div
-        className={`stage-grid px-3 sm:px-6 py-6 flex flex-col justify-center ${
-          compact ? 'min-h-[210px]' : 'min-h-[260px]'
+        className={`stage-grid px-3 sm:px-5 py-4 flex-1 flex flex-col justify-center ${
+          compact ? 'min-h-[190px] lg:min-h-0' : 'min-h-[220px] sm:min-h-[250px] lg:min-h-0'
         }`}
       >
         {onSelectTarget && (
-          <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#7D7B75] dark:text-[#A6A49C] mb-4">
+          <div className="flex items-center justify-center gap-1.5 text-[11px] text-[#7D7B75] dark:text-[#A6A49C] mb-3 shrink-0">
             <MousePointerClick className="w-3.5 h-3.5" />
             <span>Tips: Klik angka mana saja di bawah untuk menjadikannya Target!</span>
           </div>
@@ -153,7 +153,7 @@ export const SearchStage: React.FC<SearchStageProps> = ({
             }
 
             return (
-              <div key={idx} className="flex flex-col items-center gap-1.5">
+              <div key={idx} className="flex flex-col items-center gap-1">
                 {/* Index Label */}
                 <span className="font-mono text-[10px] text-[#8E8C84] dark:text-[#8E8C84] tabular-nums">
                   [{idx}]
@@ -165,7 +165,7 @@ export const SearchStage: React.FC<SearchStageProps> = ({
                   disabled={!onSelectTarget}
                   onClick={() => onSelectTarget?.(val)}
                   title={onSelectTarget ? `Jadikan ${val} sebagai target` : undefined}
-                  className={`search-card relative w-11 h-12 sm:w-12 sm:h-14 rounded-xl border-2 font-mono font-bold text-sm sm:text-base tabular-nums flex items-center justify-center transition-colors ${cardStyle} ${
+                  className={`search-card relative w-10 h-11 sm:w-12 sm:h-13 rounded-xl border-2 font-mono font-bold text-sm sm:text-base tabular-nums flex items-center justify-center transition-colors ${cardStyle} ${
                     onSelectTarget ? 'cursor-pointer hover:border-[#2563EB]' : 'cursor-default'
                   }`}
                 >
@@ -179,7 +179,7 @@ export const SearchStage: React.FC<SearchStageProps> = ({
                 </button>
 
                 {/* Pointer Badges */}
-                <div className="min-h-[20px] flex items-center justify-center">
+                <div className="min-h-[18px] flex items-center justify-center">
                   {labels.length > 0 && (
                     <span className="px-1.5 py-0.5 rounded-md bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] font-mono text-[9px] font-bold leading-none whitespace-nowrap">
                       {labels.join(',')}

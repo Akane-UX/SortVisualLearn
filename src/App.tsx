@@ -54,10 +54,10 @@ export function App() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from('.hero-reveal', {
-        y: 16,
+        y: 12,
         opacity: 0,
-        duration: 0.55,
-        stagger: 0.08,
+        duration: 0.5,
+        stagger: 0.06,
         ease: 'power3.out',
       });
     }, pageRef);
@@ -169,7 +169,10 @@ export function App() {
   }, [topic, mode, handleTogglePlay, handleStepForward, handleStepBack, handleShuffle]);
 
   return (
-    <div ref={pageRef} className="min-h-screen flex flex-col bg-[#FAFAF8] dark:bg-[#111110] text-[#141413] dark:text-[#F4F4F0] transition-colors duration-200">
+    <div
+      ref={pageRef}
+      className="min-h-dvh lg:h-dvh lg:overflow-hidden flex flex-col bg-[#FAFAF8] dark:bg-[#111110] text-[#141413] dark:text-[#F4F4F0] transition-colors duration-200"
+    >
       <Navbar
         topic={topic}
         onTopicChange={(nextTopic) => {
@@ -187,109 +190,115 @@ export function App() {
         onToggleDarkMode={() => setDarkMode((d) => !d)}
       />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <main className="flex-1 min-h-0 w-full px-3 sm:px-5 lg:px-6 py-3 lg:py-3.5 flex flex-col">
         {topic === 'search' ? (
           <SearchWorkspace mode={mode} soundEnabled={soundEnabled} />
         ) : (
           <>
             {mode === 'learn' && (
-          <>
-            {/* Compact Hero Header + Algorithm Pills */}
-            <section className="hero-reveal space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span
-                      className="px-2 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wide text-white"
-                      style={{ backgroundColor: algoMeta.accentColor }}
-                    >
-                      Level {algoMeta.difficulty}
-                    </span>
-                    <span className="text-xs text-[#6B6A65] dark:text-[#A6A49C] font-mono">
-                      Kompleksitas Rata-rata: {algoMeta.complexity.average}
-                    </span>
+              <div className="flex-1 min-h-0 flex flex-col gap-3 lg:gap-3.5">
+                {/* Top Horizontal Bento Strip: Algorithm Info + Selector Pills */}
+                <section className="hero-reveal shrink-0 rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] px-3.5 sm:px-4 py-2.5 shadow-xs flex flex-col xl:flex-row xl:items-center justify-between gap-2.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2 min-w-0">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <h1 className="font-display font-bold text-lg sm:text-xl text-[#141413] dark:text-[#F4F4F0] truncate">
+                          {algoMeta.name}
+                        </h1>
+                        <span
+                          className="px-2 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wide text-white"
+                          style={{ backgroundColor: algoMeta.accentColor }}
+                        >
+                          Level {algoMeta.difficulty}
+                        </span>
+                        <span className="text-xs text-[#6B6A65] dark:text-[#A6A49C] font-mono">
+                          Avg: {algoMeta.complexity.average}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#575651] dark:text-[#A6A49C] line-clamp-1 mt-0.5">
+                        {algoMeta.tagline}
+                      </p>
+                    </div>
+
+                    <div className="hidden 2xl:flex items-center gap-1.5 text-[11px] text-[#7D7B75] dark:text-[#A6A49C] bg-[#FAF9F6] dark:bg-[#22221F] px-2.5 py-1 rounded-lg border border-[#E7E5E0] dark:border-[#2E2E2A]">
+                      <Keyboard className="w-3.5 h-3.5" />
+                      <span>Spasi • ←/→ • R</span>
+                    </div>
                   </div>
-                  <h1 className="font-display font-bold text-2xl sm:text-3xl text-[#141413] dark:text-[#F4F4F0]">
-                    {algoMeta.name}
-                  </h1>
-                  <p className="text-sm text-[#575651] dark:text-[#A6A49C] mt-0.5">{algoMeta.tagline}</p>
-                </div>
 
-                <div className="hidden lg:flex items-center gap-1.5 text-[11px] text-[#7D7B75] dark:text-[#A6A49C] bg-white dark:bg-[#1A1A18] px-3 py-1.5 rounded-xl border border-[#E7E5E0] dark:border-[#2A2A26]">
-                  <Keyboard className="w-3.5 h-3.5" />
-                  <span>Spasi: Putar • ←/→: Langkah • R: Acak</span>
-                </div>
+                  <AlgorithmSelector
+                    selected={selectedAlgo}
+                    onSelect={(id) => {
+                      setIsPlaying(false);
+                      setStepIdx(0);
+                      setSelectedAlgo(id);
+                    }}
+                  />
+                </section>
+
+                {/* Main Horizontal Bento Grid Workbench */}
+                <section className="hero-reveal flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-3.5">
+                  {/* Left Bento Column (Wide): Visual Stage (expands) + Control Deck */}
+                  <div className="lg:col-span-8 2xl:col-span-9 min-h-0 flex flex-col gap-3 lg:gap-3.5">
+                    <div className="flex-1 min-h-0">
+                      <SortingStage step={currentStep} />
+                    </div>
+
+                    <ControlBar
+                      isPlaying={isPlaying}
+                      onTogglePlay={handleTogglePlay}
+                      onStepBack={handleStepBack}
+                      onStepForward={handleStepForward}
+                      onReset={() => {
+                        setIsPlaying(false);
+                        setStepIdx(0);
+                      }}
+                      onShuffle={handleShuffle}
+                      currentStep={stepIdx}
+                      totalSteps={steps.length}
+                      onScrub={(idx) => {
+                        setIsPlaying(false);
+                        setStepIdx(idx);
+                      }}
+                      speed={speed}
+                      onSpeedChange={setSpeed}
+                      arraySize={arraySize}
+                      onArraySizeChange={(size) => {
+                        setIsPlaying(false);
+                        setArraySize(size);
+                        setStepIdx(0);
+                        setBaseValues(generatePresetValues(preset, size));
+                      }}
+                      preset={preset}
+                      onPresetChange={(p) => {
+                        setIsPlaying(false);
+                        setPreset(p);
+                        setStepIdx(0);
+                        setBaseValues(generatePresetValues(p, arraySize));
+                      }}
+                      onCustomArray={(vals) => {
+                        setIsPlaying(false);
+                        setArraySize(vals.length);
+                        setStepIdx(0);
+                        setBaseValues(vals);
+                      }}
+                    />
+                  </div>
+
+                  {/* Right Bento Column: Live Code Tracker (Top) + Concept & Complexity (Bottom) */}
+                  <div className="lg:col-span-4 2xl:col-span-3 min-h-0">
+                    <LearningPanel
+                      algo={algoMeta}
+                      activeCodeLine={currentStep.codeLine}
+                    />
+                  </div>
+                </section>
               </div>
+            )}
 
-              <AlgorithmSelector
-                selected={selectedAlgo}
-                onSelect={(id) => {
-                  setIsPlaying(false);
-                  setStepIdx(0);
-                  setSelectedAlgo(id);
-                }}
-              />
-            </section>
+            {mode === 'race' && <RaceMode />}
 
-            {/* Main Interactive Workbench */}
-            <section className="hero-reveal grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-              <div className="lg:col-span-7 xl:col-span-8 space-y-4">
-                <SortingStage step={currentStep} />
-
-                <ControlBar
-                  isPlaying={isPlaying}
-                  onTogglePlay={handleTogglePlay}
-                  onStepBack={handleStepBack}
-                  onStepForward={handleStepForward}
-                  onReset={() => {
-                    setIsPlaying(false);
-                    setStepIdx(0);
-                  }}
-                  onShuffle={handleShuffle}
-                  currentStep={stepIdx}
-                  totalSteps={steps.length}
-                  onScrub={(idx) => {
-                    setIsPlaying(false);
-                    setStepIdx(idx);
-                  }}
-                  speed={speed}
-                  onSpeedChange={setSpeed}
-                  arraySize={arraySize}
-                  onArraySizeChange={(size) => {
-                    setIsPlaying(false);
-                    setArraySize(size);
-                    setStepIdx(0);
-                    setBaseValues(generatePresetValues(preset, size));
-                  }}
-                  preset={preset}
-                  onPresetChange={(p) => {
-                    setIsPlaying(false);
-                    setPreset(p);
-                    setStepIdx(0);
-                    setBaseValues(generatePresetValues(p, arraySize));
-                  }}
-                  onCustomArray={(vals) => {
-                    setIsPlaying(false);
-                    setArraySize(vals.length);
-                    setStepIdx(0);
-                    setBaseValues(vals);
-                  }}
-                />
-              </div>
-
-              <div className="lg:col-span-5 xl:col-span-4">
-                <LearningPanel
-                  algo={algoMeta}
-                  activeCodeLine={currentStep.codeLine}
-                />
-              </div>
-            </section>
-          </>
-        )}
-
-        {mode === 'race' && <RaceMode />}
-
-        {mode === 'quiz' && <QuizMode />}
+            {mode === 'quiz' && <QuizMode />}
           </>
         )}
       </main>

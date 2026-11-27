@@ -67,8 +67,8 @@ export const ControlBar: React.FC<ControlBarProps> = ({
       .map((s) => parseInt(s.trim(), 10))
       .filter((n) => !Number.isNaN(n));
 
-    if (parsed.length < 4 || parsed.length > 24) {
-      setCustomError('Masukkan antara 4 sampai 24 angka (dipisah koma atau spasi).');
+    if (parsed.length < 4 || parsed.length > 32) {
+      setCustomError('Masukkan antara 4 sampai 32 angka (dipisah koma atau spasi).');
       return;
     }
     if (parsed.some((n) => n < 5 || n > 100)) {
@@ -81,17 +81,17 @@ export const ControlBar: React.FC<ControlBarProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] p-4 shadow-xs space-y-4">
+    <div className="shrink-0 rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] p-3 sm:p-3.5 shadow-xs space-y-2.5">
       {/* Row 1: Playback Controls + Timeline Scrubber */}
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
         <div className="flex items-center gap-1.5">
           <button
             type="button"
             onClick={onReset}
             title="Ulang dari awal"
-            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0]"
+            className="tactile-btn p-2 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0]"
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
           </button>
 
           <button
@@ -99,25 +99,25 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             onClick={onStepBack}
             disabled={currentStep <= 0}
             title="Langkah sebelumnya (Panah Kiri)"
-            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="tactile-btn p-2 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <SkipBack className="w-4 h-4" />
+            <SkipBack className="w-3.5 h-3.5" />
           </button>
 
           <button
             type="button"
             onClick={onTogglePlay}
             title="Putar / Jeda (Spasi)"
-            className="tactile-btn flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#141413] dark:bg-[#F4F4F0] hover:bg-[#2A2A27] dark:hover:bg-[#E2E0D8] text-white dark:text-[#141413] font-semibold text-sm shadow-xs"
+            className="tactile-btn flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#141413] dark:bg-[#F4F4F0] hover:bg-[#2A2A27] dark:hover:bg-[#E2E0D8] text-white dark:text-[#141413] font-semibold text-xs sm:text-sm shadow-xs"
           >
             {isPlaying ? (
               <>
-                <Pause className="w-4 h-4 fill-current" />
+                <Pause className="w-3.5 h-3.5 fill-current" />
                 <span>Jeda</span>
               </>
             ) : (
               <>
-                <Play className="w-4 h-4 fill-current" />
+                <Play className="w-3.5 h-3.5 fill-current" />
                 <span>{currentStep >= totalSteps - 1 ? 'Putar Ulang' : 'Mulai'}</span>
               </>
             )}
@@ -128,24 +128,24 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             onClick={onStepForward}
             disabled={currentStep >= totalSteps - 1}
             title="Langkah berikutnya (Panah Kanan)"
-            className="tactile-btn p-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="tactile-btn p-2 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            <SkipForward className="w-4 h-4" />
+            <SkipForward className="w-3.5 h-3.5" />
           </button>
 
           <button
             type="button"
             onClick={onShuffle}
             title="Acak data baru (R)"
-            className="tactile-btn flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-[#FAF9F5] dark:bg-[#22221F] hover:bg-[#EFECE6] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
+            className="tactile-btn flex items-center gap-1.5 px-2.5 py-2 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-[#FAF9F5] dark:bg-[#22221F] hover:bg-[#EFECE6] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
           >
             <Shuffle className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Acak Baru</span>
+            <span className="hidden xl:inline">Acak Baru</span>
           </button>
         </div>
 
         {/* Timeline Scrubber */}
-        <div className="flex-1 flex items-center gap-3">
+        <div className="flex-1 flex items-center gap-2.5">
           <input
             type="range"
             min={0}
@@ -155,60 +155,61 @@ export const ControlBar: React.FC<ControlBarProps> = ({
             aria-label="Timeline langkah sorting"
             className="studio-slider flex-1"
           />
-          <span className="font-mono text-xs font-medium text-[#575651] dark:text-[#A6A49C] tabular-nums whitespace-nowrap">
-            Langkah {currentStep + 1} / {totalSteps}
+          <span className="font-mono text-[11px] font-medium text-[#575651] dark:text-[#A6A49C] tabular-nums whitespace-nowrap">
+            {currentStep + 1} / {totalSteps}
           </span>
         </div>
       </div>
 
       {/* Row 2: Speed, Size, Presets, Custom */}
-      <div className="pt-3 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-wrap items-center justify-between gap-4">
-        {/* Speed */}
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-[#6B6A65] dark:text-[#A6A49C]">Kecepatan:</span>
-          <div className="flex items-center bg-[#F3F1EC] dark:bg-[#22221F] p-0.5 rounded-lg border border-[#E7E5E0] dark:border-[#2E2E2A]">
-            {speeds.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => onSpeedChange(s)}
-                className={`tactile-btn px-2.5 py-1 rounded-md text-xs font-mono font-semibold tabular-nums ${
-                  speed === s
-                    ? 'bg-white dark:bg-[#32322D] text-[#141413] dark:text-[#F4F4F0] shadow-xs'
-                    : 'text-[#6B6A65] dark:text-[#A6A49C] hover:text-[#141413] dark:hover:text-[#F4F4F0]'
-                }`}
-              >
-                {s}x
-              </button>
-            ))}
+      <div className="pt-2.5 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-wrap items-center justify-between gap-2.5">
+        {/* Speed & Size grouped */}
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-medium text-[#6B6A65] dark:text-[#A6A49C]">Kecepatan:</span>
+            <div className="flex items-center bg-[#F3F1EC] dark:bg-[#22221F] p-0.5 rounded-lg border border-[#E7E5E0] dark:border-[#2E2E2A]">
+              {speeds.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => onSpeedChange(s)}
+                  className={`tactile-btn px-2 py-0.5 rounded-md text-[11px] font-mono font-semibold tabular-nums ${
+                    speed === s
+                      ? 'bg-white dark:bg-[#32322D] text-[#141413] dark:text-[#F4F4F0] shadow-xs'
+                      : 'text-[#6B6A65] dark:text-[#A6A49C] hover:text-[#141413] dark:hover:text-[#F4F4F0]'
+                  }`}
+                >
+                  {s}x
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-medium text-[#6B6A65] dark:text-[#A6A49C]">Data:</span>
+            <input
+              type="range"
+              min={6}
+              max={32}
+              value={arraySize}
+              onChange={(e) => onArraySizeChange(Number(e.target.value))}
+              aria-label="Jumlah elemen array"
+              className="studio-slider w-24"
+            />
+            <span className="font-mono text-xs font-semibold text-[#141413] dark:text-[#F4F4F0] tabular-nums w-6">
+              {arraySize}
+            </span>
           </div>
         </div>
 
-        {/* Size */}
-        <div className="flex items-center gap-2.5">
-          <span className="text-xs font-medium text-[#6B6A65] dark:text-[#A6A49C]">Jumlah Data:</span>
-          <input
-            type="range"
-            min={6}
-            max={22}
-            value={arraySize}
-            onChange={(e) => onArraySizeChange(Number(e.target.value))}
-            aria-label="Jumlah elemen array"
-            className="studio-slider w-24"
-          />
-          <span className="font-mono text-xs font-semibold text-[#141413] dark:text-[#F4F4F0] tabular-nums w-6">
-            {arraySize}
-          </span>
-        </div>
-
         {/* Presets + Custom */}
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1">
           {presets.map((p) => (
             <button
               key={p.id}
               type="button"
               onClick={() => onPresetChange(p.id)}
-              className={`tactile-btn px-2.5 py-1 rounded-lg text-xs font-medium border ${
+              className={`tactile-btn px-2 py-1 rounded-lg text-[11px] font-medium border ${
                 preset === p.id
                   ? 'bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] border-[#141413] dark:border-[#F4F4F0]'
                   : 'bg-[#FAF9F6] dark:bg-[#22221F] text-[#575651] dark:text-[#A6A49C] border-[#E7E5E0] dark:border-[#2E2E2A] hover:border-[#C9C5BC] dark:hover:border-[#42423D]'
@@ -220,14 +221,14 @@ export const ControlBar: React.FC<ControlBarProps> = ({
           <button
             type="button"
             onClick={() => setShowCustom((v) => !v)}
-            className={`tactile-btn flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium border ${
+            className={`tactile-btn flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-medium border ${
               showCustom
                 ? 'bg-[#2563EB] text-white border-[#2563EB]'
                 : 'bg-white dark:bg-[#22221F] text-[#2563EB] dark:text-[#60A5FA] border-[#2563EB]/30 hover:bg-[#2563EB]/5'
             }`}
           >
             <SlidersHorizontal className="w-3 h-3" />
-            Input Sendiri
+            <span>Kustom</span>
           </button>
         </div>
       </div>
@@ -236,20 +237,20 @@ export const ControlBar: React.FC<ControlBarProps> = ({
       {showCustom && (
         <form
           onSubmit={handleApplyCustom}
-          className="pt-3 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5"
+          className="pt-2.5 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-col sm:flex-row items-stretch sm:items-center gap-2"
         >
           <input
             type="text"
             value={customText}
             onChange={(e) => setCustomText(e.target.value)}
             placeholder="Contoh: 45, 18, 72, 29, 90, 14"
-            className="flex-1 px-3 py-2 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#141413] text-[#141413] dark:text-[#F4F4F0] font-mono text-xs focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
+            className="flex-1 px-3 py-1.5 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#141413] text-[#141413] dark:text-[#F4F4F0] font-mono text-xs focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
           />
           <button
             type="submit"
-            className="tactile-btn px-4 py-2 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-[#1D4ED8]"
+            className="tactile-btn px-3.5 py-1.5 rounded-xl bg-[#2563EB] text-white text-xs font-semibold hover:bg-[#1D4ED8]"
           >
-            Terapkan Angka
+            Terapkan
           </button>
           {customError && (
             <p className="text-xs text-[#DC2626] font-medium">{customError}</p>

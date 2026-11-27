@@ -48,7 +48,6 @@ export const SortingStage: React.FC<SortingStageProps> = ({
         const isPivot = step.pivot === idx;
 
         if (Math.abs(dx) > 1) {
-          // Physical swap/move: start from previous X and glide smoothly to new X
           gsap.fromTo(
             bar,
             { x: dx, y: isSwapping ? -10 : -4 },
@@ -144,22 +143,22 @@ export const SortingStage: React.FC<SortingStageProps> = ({
   return (
     <div
       ref={containerRef}
-      className="rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] shadow-xs overflow-hidden"
+      className="h-full flex flex-col rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] shadow-xs overflow-hidden"
     >
       {/* Top Stage Header: Metrics + Legend */}
-      <div className="px-4 sm:px-5 py-3 border-b border-[#EFECE6] dark:border-[#2A2A26] bg-[#FAF9F6] dark:bg-[#151513] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="shrink-0 px-3.5 sm:px-4 py-2.5 border-b border-[#EFECE6] dark:border-[#2A2A26] bg-[#FAF9F6] dark:bg-[#151513] flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2.5">
           {title && (
-            <span className="font-display font-bold text-sm text-[#141413] dark:text-[#F4F4F0]">
+            <span className="font-display font-bold text-xs sm:text-sm text-[#141413] dark:text-[#F4F4F0]">
               {title}
             </span>
           )}
-          <div className="flex items-center gap-2 text-xs font-medium">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] tabular-nums">
+          <div className="flex items-center gap-1.5 text-xs font-medium">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] tabular-nums">
               <Eye className="w-3.5 h-3.5 text-[#FF5A36]" />
               Banding: <strong>{step.comparisons}</strong>
             </span>
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] tabular-nums">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] text-[#141413] dark:text-[#F4F4F0] tabular-nums">
               <ArrowLeftRight className="w-3.5 h-3.5 text-[#F59E0B]" />
               Tukar/Tulis: <strong>{step.swaps}</strong>
             </span>
@@ -167,17 +166,17 @@ export const SortingStage: React.FC<SortingStageProps> = ({
         </div>
 
         {!compact && (
-          <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium text-[#575651] dark:text-[#A6A49C]">
-            <span className="inline-flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-2.5 text-[11px] font-medium text-[#575651] dark:text-[#A6A49C]">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#FF5A36]" /> Bandingkan
             </span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#F59E0B]" /> Tukar
             </span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#2563EB]" /> Pivot / Kunci
             </span>
-            <span className="inline-flex items-center gap-1.5">
+            <span className="inline-flex items-center gap-1">
               <span className="w-2.5 h-2.5 rounded-xs bg-[#10B981]" /> Terurut
             </span>
           </div>
@@ -186,7 +185,7 @@ export const SortingStage: React.FC<SortingStageProps> = ({
 
       {/* Live Narration Banner */}
       <div
-        className={`px-4 sm:px-5 py-2.5 border-b border-[#EFECE6] dark:border-[#2A2A26] flex items-center gap-2.5 text-xs sm:text-sm ${
+        className={`shrink-0 px-3.5 sm:px-4 py-2 border-b border-[#EFECE6] dark:border-[#2A2A26] flex items-center gap-2 text-xs sm:text-[13px] ${
           step.isDone
             ? 'bg-[#10B981]/10 dark:bg-[#10B981]/15 text-[#065F46] dark:text-[#6EE7B7]'
             : 'bg-[#FFFDF9] dark:bg-[#1E1E1B] text-[#2B2A27] dark:text-[#E7E5E0]'
@@ -197,33 +196,33 @@ export const SortingStage: React.FC<SortingStageProps> = ({
         ) : (
           <Sparkles className="w-4 h-4 text-[#FF5A36] shrink-0" />
         )}
-        <p className="font-medium leading-snug">{step.narration}</p>
+        <p className="font-medium leading-snug line-clamp-2">{step.narration}</p>
       </div>
 
       {/* Visual Bar Arena */}
       <div
-        className={`stage-grid px-3 sm:px-6 pt-4 pb-4 flex flex-col justify-end ${
-          compact ? 'h-60' : 'h-76 sm:h-84'
+        className={`stage-grid px-3 sm:px-5 pt-3 pb-3 flex-1 flex flex-col justify-end ${
+          compact ? 'min-h-[210px] lg:min-h-0' : 'min-h-[240px] sm:min-h-[280px] lg:min-h-0'
         }`}
       >
         {/* Merge Sort Divide & Merge Phase Pill */}
         {step.mergeSplit && (
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-2 shrink-0">
             {step.mergeSplit.phase === 'divide' && (
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-[#E7E5E0] shadow-xs text-[11px] font-medium">
-                <span className="inline-flex items-center gap-1 text-[#7C3AED] font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-[#22221F] border border-[#E7E5E0] dark:border-[#2E2E2A] shadow-xs text-[11px] font-medium">
+                <span className="inline-flex items-center gap-1 text-[#7C3AED] dark:text-[#A78BFA] font-semibold">
                   <span className="w-2 h-2 rounded-full bg-[#8B5CF6]" />
                   Kiri [{step.mergeSplit.left}..{step.mergeSplit.mid}]
                 </span>
                 <span className="text-[#C9C5BC]">|</span>
-                <span className="inline-flex items-center gap-1 text-[#2563EB] font-semibold">
+                <span className="inline-flex items-center gap-1 text-[#2563EB] dark:text-[#60A5FA] font-semibold">
                   <span className="w-2 h-2 rounded-full bg-[#2563EB]" />
                   Kanan [{step.mergeSplit.mid + 1}..{step.mergeSplit.right}]
                 </span>
               </div>
             )}
             {step.mergeSplit.phase === 'merge' && (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#6D28D9] text-[11px] font-semibold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#8B5CF6]/10 border border-[#8B5CF6]/30 text-[#6D28D9] dark:text-[#C4B5FD] text-[11px] font-semibold">
                 <span>
                   Menggabungkan [{step.mergeSplit.left}..{step.mergeSplit.mid}] + [
                   {step.mergeSplit.mid + 1}..{step.mergeSplit.right}] → [
@@ -232,7 +231,7 @@ export const SortingStage: React.FC<SortingStageProps> = ({
               </div>
             )}
             {step.mergeSplit.phase === 'merged' && (
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#10B981]/15 border border-[#10B981]/30 text-[#065F46] text-[11px] font-semibold">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#10B981]/15 border border-[#10B981]/30 text-[#065F46] dark:text-[#6EE7B7] text-[11px] font-semibold">
                 <span>
                   Tergabung Rapi [{step.mergeSplit.left}..{step.mergeSplit.right}] ✓
                 </span>
@@ -241,11 +240,11 @@ export const SortingStage: React.FC<SortingStageProps> = ({
           </div>
         )}
 
-        <div className="flex items-end justify-center gap-1 sm:gap-2 flex-1 min-h-0 w-full">
+        <div className="flex items-end justify-center gap-1 sm:gap-1.5 flex-1 min-h-0 w-full">
           {step.array.map((el, idx) => {
             const heightPct = Math.max(12, Math.round((el.value / maxVal) * 100));
             const appearance = getBarAppearance(idx);
-            const showNumber = step.array.length <= 20;
+            const showNumber = step.array.length <= 28;
 
             // Merge Sort boundary box / divider styling per slot
             const ms = step.mergeSplit;
@@ -309,7 +308,7 @@ export const SortingStage: React.FC<SortingStageProps> = ({
         </div>
 
         {/* Index & Pointer Row */}
-        <div className="flex items-start justify-center gap-1 sm:gap-2 mt-2 min-h-[26px]">
+        <div className="shrink-0 flex items-start justify-center gap-1 sm:gap-1.5 mt-1.5 min-h-[24px]">
           {step.array.map((el, idx) => {
             const labels = pointersByIndex[idx] || [];
             return (
@@ -317,13 +316,13 @@ export const SortingStage: React.FC<SortingStageProps> = ({
                 key={`ptr-${el.id}`}
                 className="flex-1 max-w-[48px] flex flex-col items-center gap-0.5"
               >
-                {step.array.length <= 18 && (
+                {step.array.length <= 28 && (
                   <span className="font-mono text-[9px] text-[#9A9891] tabular-nums">
                     {idx}
                   </span>
                 )}
                 {labels.length > 0 && (
-                  <span className="px-1.5 py-0.5 rounded-md bg-[#141413] text-white font-mono text-[9px] font-semibold leading-none whitespace-nowrap shadow-xs">
+                  <span className="px-1.5 py-0.5 rounded-md bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] font-mono text-[9px] font-semibold leading-none whitespace-nowrap shadow-xs">
                     {labels.join(',')}
                   </span>
                 )}

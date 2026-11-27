@@ -71,19 +71,19 @@ export const RaceMode: React.FC = () => {
       : null;
 
   return (
-    <div className="space-y-5">
-      {/* Race Header & Controls */}
-      <div className="rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] p-4 sm:p-5 shadow-xs space-y-4">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-          <div className="space-y-1">
+    <div className="flex-1 min-h-0 flex flex-col gap-3 lg:gap-3.5">
+      {/* Top Horizontal Bento Deck: Race Header & Controls */}
+      <div className="shrink-0 rounded-2xl border border-[#E7E5E0] dark:border-[#2A2A26] bg-white dark:bg-[#1A1A18] p-3.5 sm:p-4 shadow-xs space-y-3">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+          <div className="space-y-0.5">
             <div className="flex items-center gap-2">
-              <Swords className="w-5 h-5 text-[#FF5A36]" />
-              <h2 className="font-display font-bold text-lg text-[#141413] dark:text-[#F4F4F0]">
+              <Swords className="w-4 h-4 text-[#FF5A36]" />
+              <h2 className="font-display font-bold text-base sm:text-lg text-[#141413] dark:text-[#F4F4F0]">
                 Mode Duel Algoritma
               </h2>
             </div>
-            <p className="text-xs sm:text-sm text-[#575651] dark:text-[#A6A49C]">
-              Bandingkan dua algoritma pada data yang <strong>persis sama</strong> untuk merasakan perbedaan efisiensi O(n²) vs O(n log n).
+            <p className="text-xs text-[#575651] dark:text-[#A6A49C]">
+              Bandingkan dua algoritma pada data yang <strong>persis sama</strong> untuk melihat efisiensi secara langsung.
             </p>
           </div>
 
@@ -96,7 +96,7 @@ export const RaceMode: React.FC = () => {
                 setAlgoA(e.target.value as AlgorithmId);
               }}
               aria-label="Pilih Algoritma A"
-              className="px-3 py-2 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#22221F] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
+              className="px-3 py-1.5 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#22221F] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
             >
               {ALGORITHM_ORDER.map((id) => (
                 <option key={id} value={id}>
@@ -115,7 +115,7 @@ export const RaceMode: React.FC = () => {
                 setAlgoB(e.target.value as AlgorithmId);
               }}
               aria-label="Pilih Algoritma B"
-              className="px-3 py-2 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#22221F] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
+              className="px-3 py-1.5 rounded-xl border border-[#D8D5CD] dark:border-[#34342F] bg-[#FAF9F6] dark:bg-[#22221F] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
             >
               {ALGORITHM_ORDER.map((id) => (
                 <option key={id} value={id}>
@@ -130,7 +130,7 @@ export const RaceMode: React.FC = () => {
                 if (bothDone) setStepIdx(0);
                 setIsPlaying((p) => !p);
               }}
-              className="tactile-btn flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] text-xs font-semibold"
+              className="tactile-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#141413] dark:bg-[#F4F4F0] text-white dark:text-[#141413] text-xs font-semibold"
             >
               {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
               <span>{isPlaying ? 'Jeda' : bothDone ? 'Duel Ulang' : 'Mulai Duel'}</span>
@@ -143,7 +143,7 @@ export const RaceMode: React.FC = () => {
                 setStepIdx(0);
               }}
               title="Reset langkah"
-              className="tactile-btn p-2 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0]"
+              className="tactile-btn p-1.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-white dark:bg-[#22221F] hover:bg-[#FAF9F5] dark:hover:bg-[#2B2B27] text-[#141413] dark:text-[#F4F4F0]"
             >
               <RotateCcw className="w-4 h-4" />
             </button>
@@ -151,7 +151,7 @@ export const RaceMode: React.FC = () => {
             <button
               type="button"
               onClick={() => handleNewData(preset, arraySize)}
-              className="tactile-btn flex items-center gap-1 px-3 py-2 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-[#FAF9F6] dark:bg-[#22221F] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
+              className="tactile-btn flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-[#E7E5E0] dark:border-[#2E2E2A] bg-[#FAF9F6] dark:bg-[#22221F] text-[#141413] dark:text-[#F4F4F0] text-xs font-semibold"
             >
               <Shuffle className="w-3.5 h-3.5" />
               Data Baru
@@ -159,8 +159,8 @@ export const RaceMode: React.FC = () => {
           </div>
         </div>
 
-        {/* Row 2: Jumlah Data & Preset (sama seperti di Visualisasi & Materi) */}
-        <div className="pt-3 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-wrap items-center justify-between gap-4">
+        {/* Row 2: Jumlah Data & Preset */}
+        <div className="pt-2.5 border-t border-[#EFECE6] dark:border-[#2A2A26] flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="text-xs font-medium text-[#6B6A65] dark:text-[#A6A49C]">
               Jumlah Data:
@@ -168,7 +168,7 @@ export const RaceMode: React.FC = () => {
             <input
               type="range"
               min={6}
-              max={22}
+              max={28}
               value={arraySize}
               onChange={(e) => handleNewData(preset, Number(e.target.value))}
               aria-label="Jumlah elemen array duel"
@@ -200,10 +200,10 @@ export const RaceMode: React.FC = () => {
 
       {/* Winner Banner */}
       {bothDone && (
-        <div className="rounded-2xl border border-[#10B981]/30 bg-[#10B981]/10 dark:bg-[#10B981]/15 px-5 py-3.5 flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 text-[#065F46] dark:text-[#6EE7B7]">
-            <Trophy className="w-5 h-5 text-[#10B981]" />
-            <span className="font-display font-bold text-sm sm:text-base">
+        <div className="shrink-0 rounded-2xl border border-[#10B981]/30 bg-[#10B981]/10 dark:bg-[#10B981]/15 px-4 py-2.5 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2 text-[#065F46] dark:text-[#6EE7B7]">
+            <Trophy className="w-4 h-4 text-[#10B981]" />
+            <span className="font-display font-bold text-xs sm:text-sm">
               {winner
                 ? `Pemenang Duel: ${winner} selesai lebih cepat!`
                 : 'Hasil Seri! Kedua algoritma selesai dalam jumlah langkah yang sama.'}
@@ -215,8 +215,8 @@ export const RaceMode: React.FC = () => {
         </div>
       )}
 
-      {/* Side-by-side stages */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Side-by-side Horizontal Bento Arenas */}
+      <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-3.5">
         <SortingStage
           step={currentA}
           compact
